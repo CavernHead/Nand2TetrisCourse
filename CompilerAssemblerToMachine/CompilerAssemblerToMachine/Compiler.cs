@@ -14,12 +14,11 @@ namespace CompilerAssemblerToMachine
             compiler.TranslateAssemblerToMachine("Add");
             compiler.TranslateAssemblerToMachine("Max");
             compiler.TranslateAssemblerToMachine("MaxL");
-            compiler.TranslateAssemblerToMachine("Mult");
+            compiler.TranslateAssemblerToMachine("Mult"); 
             compiler.TranslateAssemblerToMachine("Pong");
             compiler.TranslateAssemblerToMachine("PongL");
             compiler.TranslateAssemblerToMachine("Rect");
             compiler.TranslateAssemblerToMachine("RectL");
-
         }
 
         void TranslateAssemblerToMachine(string FileName)

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Carte\\Desktop\\nand2tetris\\nand2tetris\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj": {}
+    "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Carte\\Desktop\\nand2tetris\\nand2tetris\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj": {
+    "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Carte\\Desktop\\nand2tetris\\nand2tetris\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
+        "projectUniqueName": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
         "projectName": "CompilerAssemblerToMachine",
-        "projectPath": "C:\\Users\\Carte\\Desktop\\nand2tetris\\nand2tetris\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
+        "projectPath": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
         "packagesPath": "C:\\Users\\Carte\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Carte\\Desktop\\nand2tetris\\nand2tetris\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\obj\\",
+        "outputPath": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Carte\\AppData\\Roaming\\NuGet\\NuGet.Config",
