@@ -10,57 +10,99 @@ namespace VmTranslator
         static void Main(string[] args)
         {
             Compiler complier = new Compiler();
-            complier.TranslateAssemblerToMachine("StackTest");
-            complier.TranslateAssemblerToMachine("SimpleAdd");
-            complier.TranslateAssemblerToMachine("BasicTest");
-            complier.TranslateAssemblerToMachine("PointerTest");
-            complier.TranslateAssemblerToMachine("StaticTest");
+            complier.TranslateFileOrFolder("StaticsTest", "StaticsTest");
         }
-        void TranslateAssemblerToMachine(string FileName)
-        {
-            TranslateVmToAssembler(FileName + ".vm", FileName + ".asm");
-        }
-        void TranslateVmToAssembler(string VMFileName, string AssemblerFileName)
+
+        public void TranslateFileOrFolder(string fileOrFolder,string asmFileNameShort)
         {
             string parentFileName = @"C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\VmTranslator\";
-            TranslateVmToAssembler(parentFileName, VMFileName, AssemblerFileName);
-        }
-        void TranslateVmToAssembler(string parentFileName, string VmFileName, string assemblerFileName)
-        {
-            Console.WriteLine("did something");
-            string VmFullfileName = parentFileName + VmFileName;
-            List<VmCommand> commands = GetVmCommandsFromFile(VmFullfileName);
-            List<string> assemblerCommands = new List<string>();
-            for(int i = 0;i < commands.Count;i++)
+            List<string> filesToTranslate = new List<string>();
+            bool containsSysFile =false;
+            string SystemFileName = parentFileName + "Sys.vm";
+            foreach (string current in Directory.GetFiles(parentFileName))
             {
-                assemblerCommands.Add("//////////"+i+": " + commands[i].instruction + " " + commands[i].memoryType + " " + commands[i].variable+"");
+                string fullFileNameSearching = parentFileName + fileOrFolder + ".vm";
+                
+                if (current == fullFileNameSearching)
+                {
+                    containsSysFile = (current == SystemFileName);
+                    filesToTranslate.Add(current);
+                    break;
+                }
+            }
+            if (filesToTranslate.Count<=0)
+            {
+                foreach (string current in Directory.GetDirectories(parentFileName))
+                {
+                    string fullFolderNameSearching = parentFileName + fileOrFolder;
+                    SystemFileName= parentFileName + fileOrFolder+ @"\Sys.vm";
+                    if (current == fullFolderNameSearching)
+                    {
+                        
+                        foreach (String currentfileName in Directory.GetFiles(fullFolderNameSearching, "*.vm"))
+                        {
+                                if(currentfileName == SystemFileName)
+                                {
+                                    containsSysFile = true;
+                                }
+                                Console.WriteLine(currentfileName);
+                                filesToTranslate.Add(currentfileName);
+                        }
+                        break;
+                    }
+                }
+            }
+            List<VmCommand> allComands = ParseVmFiles(filesToTranslate);
+            string fullAsmFileName = parentFileName + asmFileNameShort + ".asm";
+            WriteCode(allComands, fullAsmFileName, containsSysFile);
+        }
+
+        public void WriteCode(List<VmCommand> commands,string asmFileNameFull,bool containsSystemP)
+        {
+            List<string> assemblerCommands = new List<string>();
+            int commandCommandCounter =0;
+            if(containsSystemP)
+            {
+                assemblerCommands.Add("@"+256);
+                assemblerCommands.Add("D=A");
+                assemblerCommands.Add("@SP");
+                assemblerCommands.Add("M=D");
+                assemblerCommands.AddRange(CallFunction("Sys.init", "0", commandCommandCounter));
+                commandCommandCounter++;
+            }
+            
+            //initial commands
+            for (int i = 0; i < commands.Count; i++)
+            {
+                
+                assemblerCommands.Add("//////////" + commandCommandCounter + ": " + commands[i].instruction + " " + commands[i].commandInfo1 + " " + commands[i].commandInfo2 + "");
                 if (commands[i].instruction == "push")
                 {
-                    if(commands[i].memoryType=="constant")
+                    if (commands[i].commandInfo1 == "constant")
                     {
-                        assemblerCommands.Add("@"+commands[i].variable);
+                        assemblerCommands.Add("@" + commands[i].commandInfo2);
                         assemblerCommands.Add("D=A");
                         assemblerCommands.AddRange(PlaceDOnStack());
                     }
                     else
-                    if(commands[i].memoryType == "static")
+                    if (commands[i].commandInfo1 == "static")
                     {
-                        assemblerCommands.Add("@" + "static"+commands[i].variable);
+                        assemblerCommands.Add("@" +"static"+ commands[i].fileName+"." + commands[i].commandInfo2);
                         assemblerCommands.Add("D=M");
                         assemblerCommands.AddRange(PlaceDOnStack());
                     }
                     else
-                    if(commands[i].memoryType == "temp")
+                    if (commands[i].commandInfo1 == "temp")
                     {
-                        int tempLoc = 5 + int.Parse(commands[i].variable);
-                        assemblerCommands.Add("@"+ tempLoc);
+                        int tempLoc = 5 + int.Parse(commands[i].commandInfo2);
+                        assemblerCommands.Add("@" + tempLoc);
                         assemblerCommands.Add("D=M");
                         assemblerCommands.AddRange(PlaceDOnStack());
                     }
                     else
-                    if(commands[i].memoryType == "pointer")
+                    if (commands[i].commandInfo1 == "pointer")
                     {
-                        if(commands[i].variable=="0")
+                        if (commands[i].commandInfo2 == "0")
                         {
                             assemblerCommands.Add("@THIS");
                             assemblerCommands.Add("D=M");
@@ -74,37 +116,37 @@ namespace VmTranslator
                     }
                     else
                     {
-                        assemblerCommands.AddRange(PlaceValueFromMemoryLocationOnD(commands[i].memoryType, commands[i].variable));
+                        assemblerCommands.AddRange(PlaceValueFromMemoryLocationOnD(commands[i].commandInfo1, commands[i].commandInfo2));
                         assemblerCommands.AddRange(PlaceDOnStack());
                     }
-                    
+
                 }
                 else
-                if(commands[i].instruction == "pop")
+                if (commands[i].instruction == "pop")
                 {
-                    if(commands[i].memoryType == "constant")
+                    if (commands[i].commandInfo1 == "constant")
                     {
                         assemblerCommands.Add("//we poped a constant wierd");
                     }
                     else
-                    if (commands[i].memoryType == "static")
+                    if (commands[i].commandInfo1 == "static")
                     {
                         assemblerCommands.AddRange(GetTopStackOnD());
-                        assemblerCommands.Add("@" + "static" + commands[i].variable);
+                        assemblerCommands.Add("@" + "static" + commands[i].fileName + "." + commands[i].commandInfo2);
                         assemblerCommands.Add("M=D");
                     }
                     else
-                    if (commands[i].memoryType == "temp")
+                    if (commands[i].commandInfo1 == "temp")
                     {
                         assemblerCommands.AddRange(GetTopStackOnD());
-                        int tempLoc = 5 + int.Parse(commands[i].variable);
+                        int tempLoc = 5 + int.Parse(commands[i].commandInfo2);
                         assemblerCommands.Add("@" + tempLoc);
                         assemblerCommands.Add("M=D");
                     }
                     else
-                    if (commands[i].memoryType == "pointer")
+                    if (commands[i].commandInfo1 == "pointer")
                     {
-                        if (commands[i].variable == "0")
+                        if (commands[i].commandInfo2 == "0")
                         {
                             assemblerCommands.AddRange(GetTopStackOnD());
                             assemblerCommands.Add("@THIS");
@@ -114,13 +156,14 @@ namespace VmTranslator
                         {
                             assemblerCommands.AddRange(GetTopStackOnD());
                             assemblerCommands.Add("@THAT");
-                            assemblerCommands.Add("M=D");                        }
+                            assemblerCommands.Add("M=D");
+                        }
                     }
                     else
                     {
-                        assemblerCommands.Add("@" + commands[i].variable);
+                        assemblerCommands.Add("@" + commands[i].commandInfo2);
                         assemblerCommands.Add("D=A");
-                        assemblerCommands.Add("@" + GetMemoryShort(commands[i].memoryType));
+                        assemblerCommands.Add("@" + GetMemoryShort(commands[i].commandInfo1));
                         assemblerCommands.Add("D=M+D");
                         assemblerCommands.Add("@SP");
                         assemblerCommands.Add("A=M");
@@ -166,7 +209,7 @@ namespace VmTranslator
 
                     assemblerCommands.Add("@SP");
                     assemblerCommands.Add("M=M-1");
-                   
+
 
                     assemblerCommands.AddRange(PlaceDOnStack());
                 }
@@ -191,14 +234,14 @@ namespace VmTranslator
                     assemblerCommands.Add("@SP");
                     assemblerCommands.Add("A=M");
                     assemblerCommands.Add("D=D-M");
-                    assemblerCommands.Add("@EQTRUE"+i);
+                    assemblerCommands.Add("@EQTRUE" + commandCommandCounter);
                     assemblerCommands.Add("D;JEQ");
                     assemblerCommands.Add("D=0");
-                    assemblerCommands.Add("@EQEND" + i);
+                    assemblerCommands.Add("@EQEND" + commandCommandCounter);
                     assemblerCommands.Add("0;JMP");
-                    assemblerCommands.Add("(EQTRUE" + i+")");
-                    assemblerCommands.Add("D="+ TRUE_VALUE_ASSEMBLY);
-                    assemblerCommands.Add("(EQEND" + i + ")");
+                    assemblerCommands.Add("(EQTRUE" + commandCommandCounter + ")");
+                    assemblerCommands.Add("D=" + TRUE_VALUE_ASSEMBLY);
+                    assemblerCommands.Add("(EQEND" + commandCommandCounter + ")");
 
 
                     assemblerCommands.Add("@SP");
@@ -216,14 +259,14 @@ namespace VmTranslator
                     assemblerCommands.Add("@SP");
                     assemblerCommands.Add("A=M");
                     assemblerCommands.Add("D=D-M");
-                    assemblerCommands.Add("@GTTRUE" + i); //this will need an idi
+                    assemblerCommands.Add("@GTTRUE" + commandCommandCounter); //this will need an idi
                     assemblerCommands.Add("D;JGT");
                     assemblerCommands.Add("D=0");
-                    assemblerCommands.Add("@GTEND" + i);
+                    assemblerCommands.Add("@GTEND" + commandCommandCounter);
                     assemblerCommands.Add("0;JMP");
-                    assemblerCommands.Add("(GTTRUE" + i + ")");
-                    assemblerCommands.Add("D="+ TRUE_VALUE_ASSEMBLY);
-                    assemblerCommands.Add("(GTEND" + i + ")");
+                    assemblerCommands.Add("(GTTRUE" + commandCommandCounter + ")");
+                    assemblerCommands.Add("D=" + TRUE_VALUE_ASSEMBLY);
+                    assemblerCommands.Add("(GTEND" + commandCommandCounter + ")");
 
 
                     assemblerCommands.Add("@SP");
@@ -241,14 +284,14 @@ namespace VmTranslator
                     assemblerCommands.Add("@SP");
                     assemblerCommands.Add("A=M");
                     assemblerCommands.Add("D=D-M");
-                    assemblerCommands.Add("@LTTRUE" + i);
+                    assemblerCommands.Add("@LTTRUE" + commandCommandCounter);
                     assemblerCommands.Add("D;JLT");
                     assemblerCommands.Add("D=0");
-                    assemblerCommands.Add("@LTEND" + i);
+                    assemblerCommands.Add("@LTEND" + commandCommandCounter);
                     assemblerCommands.Add("0;JMP");
-                    assemblerCommands.Add("(LTTRUE" + i + ")");
+                    assemblerCommands.Add("(LTTRUE" + commandCommandCounter + ")");
                     assemblerCommands.Add("D=" + TRUE_VALUE_ASSEMBLY);
-                    assemblerCommands.Add("(LTEND" + i + ")");
+                    assemblerCommands.Add("(LTEND" + commandCommandCounter + ")");
 
 
                     assemblerCommands.Add("@SP");
@@ -282,7 +325,7 @@ namespace VmTranslator
                     assemblerCommands.Add("@SP");
                     assemblerCommands.Add("A=M");
                     assemblerCommands.Add("D=D|M");
-                    
+
 
                     assemblerCommands.Add("@SP");
                     assemblerCommands.Add("M=M-1");
@@ -298,24 +341,237 @@ namespace VmTranslator
                     assemblerCommands.Add("@SP");
                     assemblerCommands.Add("M=M+1");
                 }
+                else
+                if(commands[i].instruction == "label")
+                {
+                    assemblerCommands.Add("("+ commands[i].commandInfo1+ "$bar)");
+                }
+                else
+                if(commands[i].instruction == "goto")
+                {
+                    assemblerCommands.Add("@"+ commands[i].commandInfo1+"$bar");
+                    assemblerCommands.Add("0;JMP");
+                }
+                else
+                if(commands[i].instruction == "if-goto")
+                {
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("M=M-1");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@" + commands[i].commandInfo1 + "$bar");
+                    assemblerCommands.Add("D;JNE");
+                }
+                else
+                if (commands[i].instruction == "call")
+                {
+                    assemblerCommands.AddRange(CallFunction(commands[i].commandInfo1, commands[i].commandInfo2, commandCommandCounter));
+                }
+                else
+                if (commands[i].instruction == "function")
+                {
+                    assemblerCommands.Add("("+commands[i].commandInfo1+")");
 
+                    int localVariables = int.Parse(commands[i].commandInfo2);
+                    assemblerCommands.Add("@SP");
+                    for (int j =0;j < localVariables;j++)
+                    {
+                        assemblerCommands.Add("A=M");
+                        assemblerCommands.Add("M=0");
+                        assemblerCommands.Add("@SP");
+                        assemblerCommands.Add("M=M+1");
+                    }
+                }
+                else
+                if(commands[i].instruction == "return")
+                {
+                   
+
+                    //Setting momentary variable new stack pos old Arg
+                    assemblerCommands.Add("@ARG");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M+1");
+                    assemblerCommands.Add("M=D");
+
+                    //Setting momentary variable end ofstored saved old LCL
+                    assemblerCommands.Add("@LCL");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("M=D");
+                    
+                    //reseting ARG
+                    assemblerCommands.Add("@3");
+                    assemblerCommands.Add("D=A");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("A=M-D");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@ARG");
+                    assemblerCommands.Add("M=D");
+
+                    //reseting THIS
+                    assemblerCommands.Add("@2");
+                    assemblerCommands.Add("D=A");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("A=M-D");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@THIS");
+                    assemblerCommands.Add("M=D");
+
+                    //reseting THAT
+                    assemblerCommands.Add("@1");
+                    assemblerCommands.Add("D=A");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("A=M-D");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@THAT");
+                    assemblerCommands.Add("M=D");
+
+                    //reseting LCL
+                    assemblerCommands.Add("@4");
+                    assemblerCommands.Add("D=A");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("A=M-D");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@LCL");
+                    assemblerCommands.Add("M=D");
+
+                    //storing return adress top of stack
+                    assemblerCommands.Add("@5");
+                    assemblerCommands.Add("D=A");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("A=M-D");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M+1");
+                    assemblerCommands.Add("A=M+1");
+                    assemblerCommands.Add("M=D");
+
+                    //returning value on stack
+                    assemblerCommands.Add("@SP"); //still maney issues here nothings will work
+                    assemblerCommands.Add("A=M-1");
+                    assemblerCommands.Add("D=M");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M+1");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("M=D");
+
+                    //repositioning SP removing all current function stuff still 
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("A=M+1");
+                    assemblerCommands.Add("D=M+1");
+                    assemblerCommands.Add("@SP");
+                    assemblerCommands.Add("M=D");
+
+                    //go back to the the return adress of the function code
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("A=M");
+                    assemblerCommands.Add("0;JMP");
+                }
+
+                commandCommandCounter++;
             }
 
             foreach (String current in assemblerCommands)
             {
                 Console.WriteLine("" + current);
             }
-            using (StreamWriter sw = File.CreateText(parentFileName + assemblerFileName))
+            using (StreamWriter sw = File.CreateText(asmFileNameFull))
             {
                 foreach (String current in assemblerCommands)
                 {
                     sw.WriteLine(current);
                 }
             }
+        }
+        public List<String> CallFunction(string functionName,string argumentsP,int callIdi)
+        {
+            List<String> commandList = new List<string>();
+            
 
+            
 
-            }
-   
+            string returnAdressName = functionName + "$ret." + callIdi;
+            //save adress of return command
+            commandList.Add("@" + returnAdressName);
+            commandList.Add("D=A");
+            commandList.Add("@SP");
+            commandList.Add("A=M");
+            commandList.Add("M=D");
+
+            commandList.Add("@SP");
+            commandList.Add("M=M+1");//1
+
+            //save LCL
+            commandList.Add("@LCL");
+            commandList.Add("D=M");
+            commandList.Add("@SP");
+            commandList.Add("A=M");
+            commandList.Add("M=D");
+
+            commandList.Add("@SP");
+            commandList.Add("M=M+1");//2
+
+            //save ARG
+            commandList.Add("@ARG");
+            commandList.Add("D=M");
+            commandList.Add("@SP");
+            commandList.Add("A=M");
+            commandList.Add("M=D");
+
+            commandList.Add("@SP");
+            commandList.Add("M=M+1");//3
+
+            //save THIS
+            commandList.Add("@THIS");
+            commandList.Add("D=M");
+            commandList.Add("@SP");
+            commandList.Add("A=M");
+            commandList.Add("M=D");
+
+            commandList.Add("@SP");
+            commandList.Add("M=M+1");//4
+
+            //save THAT
+            commandList.Add("@THAT");
+            commandList.Add("D=M");
+            commandList.Add("@SP");
+            commandList.Add("A=M");
+            commandList.Add("M=D");
+
+            commandList.Add("@SP");
+            commandList.Add("M=M+1");//5
+
+            //change ARG pointer to new location
+            int arguments = int.Parse(argumentsP);
+            int argPointerRelativeToNewLocation = arguments + 5;
+            commandList.Add("@" + argPointerRelativeToNewLocation);
+            commandList.Add("D=A");
+            commandList.Add("@SP");
+            commandList.Add("D=M-D");
+            commandList.Add("@ARG");
+            commandList.Add("M=D");
+
+            //change LCL pointer to new location
+            commandList.Add("@SP");
+            commandList.Add("D=M");
+            commandList.Add("@LCL");
+            commandList.Add("M=D");
+
+            //jump to function code
+            commandList.Add("@" + functionName );
+            commandList.Add("0;JMP");
+
+            //return adress Lable
+            commandList.Add("(" + returnAdressName + ")");
+            return commandList;
+        }
         List<String> PlaceValueFromMemoryLocationOnD(string memorylocation,string variable)
         {
             List<String> commandList = new List<string>();
@@ -347,82 +603,77 @@ namespace VmTranslator
             return commandList;
         }
        
-        
-
-        
-
-        List<VmCommand> GetVmCommandsFromFile(string fileName)
+        List<VmCommand> ParseVmFiles(List<String> allFileToParse)
         {
-
             List<VmCommand> vmCommandList = new List<VmCommand>();
-            if (File.Exists(fileName))
+            foreach (String currentFileParsing in allFileToParse)
             {
-                Console.WriteLine("found file");
-                List<string> instructions = new List<string>();
-                using (StreamReader streamReaderOfFile = File.OpenText(fileName))
+                if (File.Exists(currentFileParsing))
                 {
-                    string currentLine = "";
-                   
-                    while ((currentLine = streamReaderOfFile.ReadLine()) != null)
+                    Console.WriteLine("found file");
+                    List<string> instructions = new List<string>();
+                    using (StreamReader streamReaderOfFile = File.OpenText(currentFileParsing))
                     {
-                        string currentKeyWord = "";
-                        VmCommand currentVmCommand = null;
-                        for (int i = 0; i < currentLine.Length; i++)
+                        string currentLine = "";
+
+                        while ((currentLine = streamReaderOfFile.ReadLine()) != null)
                         {
-                            if (currentLine[i] == '/' && i + 1 < currentLine.Length && currentLine[i + 1] == '/')
+                            string currentKeyWord = "";
+                            VmCommand currentVmCommand = null;
+                            for (int i = 0; i < currentLine.Length; i++)
                             {
-                                break;
-                            }
-                            else
-                            {
-                                if (currentLine[i] != ' ')
+                                if (currentLine[i] == '/' && i + 1 < currentLine.Length && currentLine[i + 1] == '/')
                                 {
-                                    currentKeyWord += currentLine[i];
+                                    break;
                                 }
-                                if (currentLine[i] == ' ' || currentLine.Length <= i + 1)
+                                else
                                 {
-                                    if (currentKeyWord == "push" || currentKeyWord == "pop"
-                                         || currentKeyWord == "add" || currentKeyWord == "sub"
-                                         || currentKeyWord == "neg" || currentKeyWord == "eq"
-                                         || currentKeyWord == "gt" || currentKeyWord == "lt"
-                                         || currentKeyWord == "and" || currentKeyWord == "or"
-                                         || currentKeyWord == "not")
+                                    if (currentLine[i] != ' '&&currentLine[i] !='\t')
                                     {
-                                        currentVmCommand = new VmCommand(currentKeyWord, "", "");
-                                        vmCommandList.Add(currentVmCommand);
+                                        currentKeyWord += currentLine[i];
                                     }
-                                    else
-                                    if ((currentKeyWord == "local" || currentKeyWord == "arg"
-                                      || currentKeyWord == "this" || currentKeyWord == "that"
-                                      || currentKeyWord == "constant" || currentKeyWord == "pointer"
-                                      || currentKeyWord == "static" || currentKeyWord == "temp"
-                                      || currentKeyWord == "argument") &&
-                                      currentVmCommand != null)
+                                    if (currentLine[i] == ' ' || currentLine[i] == '\t' || currentLine.Length <= i + 1 || (i+2 <= currentLine.Length && currentLine[i+1] == '/' && currentLine[i + 2] == '/'))
                                     {
-                                        currentVmCommand.memoryType = currentKeyWord;
-                                    }
-                                    else
-                                    if (currentVmCommand != null)
-                                    {
-                                        int nV;
-                                        if (int.TryParse(currentKeyWord, out nV))
+                                        if (currentKeyWord == "push" || currentKeyWord == "pop"
+                                             || currentKeyWord == "add" || currentKeyWord == "sub"
+                                             || currentKeyWord == "neg" || currentKeyWord == "eq"
+                                             || currentKeyWord == "gt" || currentKeyWord == "lt"
+                                             || currentKeyWord == "and" || currentKeyWord == "or"
+                                             || currentKeyWord == "not" || currentKeyWord == "goto"
+                                             || currentKeyWord == "if-goto" || currentKeyWord == "label"
+                                             || currentKeyWord == "call" || currentKeyWord == "function"
+                                             || currentKeyWord == "return" )
                                         {
-                                            currentVmCommand.variable = currentKeyWord;
+                                            
+                                            currentVmCommand = new VmCommand(currentKeyWord, "", "", Path.GetFileNameWithoutExtension(currentFileParsing));
+                                            vmCommandList.Add(currentVmCommand);
                                         }
+                                        else
+                                        if (currentVmCommand != null&& currentVmCommand.instruction!=""&& currentVmCommand.commandInfo1=="")
+                                        {
+                                            currentVmCommand.commandInfo1 = currentKeyWord;
+                                        }
+                                        else
+                                        if (currentVmCommand != null && currentVmCommand.instruction != "" && currentVmCommand.commandInfo1 != "" && currentVmCommand.commandInfo2 == "")
+                                        {
+                                            int nV;
+                                            if (int.TryParse(currentKeyWord, out nV))
+                                            {
+                                                currentVmCommand.commandInfo2 = currentKeyWord;
+                                            }
+                                        }
+                                        currentKeyWord = "";
                                     }
-                                    currentKeyWord = "";
                                 }
                             }
-
-
-
                         }
-                    }
-                    for (int i = 0; i< vmCommandList.Count;i++)
-                    {
-                        Console.WriteLine(i+") command: " + vmCommandList[i].instruction + " " + vmCommandList[i].memoryType + " " + vmCommandList[i].variable);
+                        
                     }
                 }
+            }
+            for (int i = 0; i < vmCommandList.Count; i++)
+            {
+                Console.WriteLine(i + ") command: " + vmCommandList[i].instruction + " " + vmCommandList[i].commandInfo1 + " " + vmCommandList[i].commandInfo2);
             }
             return vmCommandList;
         }
@@ -449,16 +700,18 @@ namespace VmTranslator
             }
             return "NON EXISTANT";
         }
-        class VmCommand
+        public class VmCommand
         {
-            public string instruction;
-            public string memoryType;
-            public string variable;
-            public VmCommand(string insP,string memtypeP, string variableP)
+            public string instruction ="";
+            public string commandInfo1="";
+            public string commandInfo2="";
+            public string fileName = "";
+            public VmCommand(string insP,string commandInfo1P, string commandInfo2P,string fileNameP)
             {
                  instruction = insP;
-                 memoryType = memtypeP;
-                 variable= variableP;
+                 commandInfo1 = commandInfo1P;
+                 commandInfo2= commandInfo2P;
+                 fileName = fileNameP;
             }
         }
     }

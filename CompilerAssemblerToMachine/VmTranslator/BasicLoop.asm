@@ -1,0 +1,155 @@
+//////////0: push constant 0
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////1: pop local 0
+@0
+D=A
+@LCL
+D=M+D
+@SP
+A=M
+M=D
+A=A-1
+D=M
+A=A+1
+A=M
+M=D
+@SP
+M=M-1
+//////////2: label LOOP_START 
+(LOOP_START$bar)
+//////////3: push argument 0
+@0
+D=A
+@ARG
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////4: push local 0
+@0
+D=A
+@LCL
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////5: add  
+@SP
+M=M-1
+A=M-1
+D=M
+@SP
+A=M
+D=D+M
+@SP
+M=M-1
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////6: pop local 0	
+@0	
+D=A
+@LCL
+D=M+D
+@SP
+A=M
+M=D
+A=A-1
+D=M
+A=A+1
+A=M
+M=D
+@SP
+M=M-1
+//////////7: push argument 0
+@0
+D=A
+@ARG
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////8: push constant 1
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////9: sub  
+@SP
+M=M-1
+A=M-1
+D=M
+@SP
+A=M
+D=D-M
+@SP
+M=M-1
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////10: pop argument 0
+@0
+D=A
+@ARG
+D=M+D
+@SP
+A=M
+M=D
+A=A-1
+D=M
+A=A+1
+A=M
+M=D
+@SP
+M=M-1
+//////////11: push argument 0
+@0
+D=A
+@ARG
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//////////12: if-goto LOOP_START 
+@SP
+M=M-1
+A=M
+D=M
+@LOOP_START$bar
+D;JNE
+//////////13: push local 0
+@0
+D=A
+@LCL
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1

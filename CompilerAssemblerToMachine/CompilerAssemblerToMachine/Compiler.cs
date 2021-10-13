@@ -11,14 +11,15 @@ namespace CompilerAssemblerToMachine
         static void Main(string[] args)
         {
             Compiler compiler = new Compiler();
-            compiler.TranslateAssemblerToMachine("Add");
-            compiler.TranslateAssemblerToMachine("Max");
-            compiler.TranslateAssemblerToMachine("MaxL");
-            compiler.TranslateAssemblerToMachine("Mult"); 
-            compiler.TranslateAssemblerToMachine("Pong");
-            compiler.TranslateAssemblerToMachine("PongL");
-            compiler.TranslateAssemblerToMachine("Rect");
-            compiler.TranslateAssemblerToMachine("RectL");
+            Console.WriteLine("compiling NestedCall");
+            compiler.TranslateAssemblerToMachine("NestedCall");
+            // compiler.TranslateAssemblerToMachine("Max");
+          // compiler.TranslateAssemblerToMachine("MaxL");
+          // compiler.TranslateAssemblerToMachine("Mult"); 
+          // compiler.TranslateAssemblerToMachine("Pong");
+          // compiler.TranslateAssemblerToMachine("PongL");
+          // compiler.TranslateAssemblerToMachine("Rect");
+          // compiler.TranslateAssemblerToMachine("RectL");
         }
 
         void TranslateAssemblerToMachine(string FileName)
@@ -27,7 +28,7 @@ namespace CompilerAssemblerToMachine
         }
         void TranslateAssemblerToMachine(string assemberFileName, string machineCodeFileName)
         {
-            string parentFileName= @"C:\Users\Carte\Desktop\nand2tetris\nand2tetris\CompilerAssemblerToMachine\CompilerAssemblerToMachine\";
+            string parentFileName= @"C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\CompilerAssemblerToMachine\";
             TranslateAssemblerToMachine(parentFileName, assemberFileName, machineCodeFileName);
         }
         void TranslateAssemblerToMachine(string parentFileName, string assemberFileName, string machineCodeFileName)
@@ -289,13 +290,7 @@ namespace CompilerAssemblerToMachine
                         sw.Close();
                     }
                     sr.Close();
-                    string GetComputationBinary(string str)
-                    {
-                        
-                       
-
-                        return "null";
-                    }
+                    
                     bool CheckSymbolExists(string name)
                     {
                         bool symbolExists = false;
