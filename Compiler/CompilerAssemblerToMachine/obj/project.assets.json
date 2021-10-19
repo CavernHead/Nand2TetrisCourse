@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
+      "projectUniqueName": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\Compiler\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
       "projectName": "CompilerAssemblerToMachine",
-      "projectPath": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
+      "projectPath": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\Compiler\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine.csproj",
       "packagesPath": "C:\\Users\\Carte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\CompilerAssemblerToMachine\\CompilerAssemblerToMachine\\obj\\",
+      "outputPath": "C:\\Users\\Carte\\Source\\Repos\\Nand2TetrisCourse\\Compiler\\CompilerAssemblerToMachine\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Carte\\AppData\\Roaming\\NuGet\\NuGet.Config",
