@@ -1,0 +1,12 @@
+class Main
+{
+    function void main()
+    {
+        var Canvas mainCanvas;
+        let mainCanvas = Canvas.new();
+        do mainCanvas.run();
+        do mainCanvas.Dispose();
+        return;
+    }
+}
+

@@ -1,0 +1,30 @@
+class List
+{
+    field int data;
+    field List next;
+    
+    constructor List new(int dataP, List listP)
+    {
+        let data = dataP;
+        let next = listP;
+        return this;
+    }
+    method List getNext()
+    {
+        return next;
+    }
+    method int getData()
+    {
+        return data;
+    }
+    method void Dispose()
+    {
+        do Memory.deAlloc(this);
+        if(~(next=null))
+        {
+           do next.Dispose();
+        }
+        return;
+    }
+}
+

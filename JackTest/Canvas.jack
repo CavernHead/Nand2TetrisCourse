@@ -1,0 +1,63 @@
+class Canvas
+{
+    field int counter;
+    field MovingSquare currentMover;
+    field MovingSquare currentMover2;
+    field MovingSquare currentMover3;
+    field MovingSquare currentMover4;
+
+    constructor Canvas new(){
+        let counter = 0;
+        let currentMover = MovingSquare.new(250,125,20,this);
+        let currentMover2 = MovingSquare.new(400,200,20,this);
+        let currentMover3 = MovingSquare.new(100,50,20,this);
+        let currentMover4 = MovingSquare.new(250,100,20,this);
+        return this;
+    }
+
+    method int getCounter(int seed)
+    {
+        var int returnValue;
+        let counter = counter+1;
+        let returnValue = seed+counter;
+
+        return returnValue;
+    }
+    
+    method void run()
+    {
+        var boolean exit;
+        var int key;
+        
+        let exit = false;
+        let key = 0;
+        do Utility.DrawNumber(10,2,6663);
+        while(~exit)
+        {
+            do currentMover.Move();
+            do currentMover2.Move();
+            do currentMover3.Move();
+            do currentMover4.Move();
+            
+            let key = Keyboard.keyPressed();
+            if( key = 81 )  
+            { 
+                let exit = true; 
+            }
+            let counter = counter+1;
+            if( 1000 < counter )
+            {
+                let counter=0;
+            }
+        }
+        return;
+    }
+    
+    method void Dispose()
+    {
+        do currentMover.Dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+   
+}

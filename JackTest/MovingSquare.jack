@@ -1,0 +1,156 @@
+class MovingSquare
+{
+  field int x,y;
+  field int size;
+  field Canvas canvasIn;
+  field int movesCounter;
+  field boolean leftRightZerod;
+  field boolean upDownZerod;
+  field boolean leftRight;
+  field boolean upDown;
+
+  constructor MovingSquare new(int xP,int yP,int sizeP,Canvas canvasP)
+  {
+        let size = sizeP;
+        let x =xP;
+        let x =yP;
+        let canvasIn = canvasP;
+        let movesCounter = 0;
+        return this;
+  }
+
+  method void Move()
+  {
+    
+    do DrawColor(false);
+    do DrawSquare(size);
+    do ApplyMovement();
+    do DrawColor(true);
+    do DrawSquare(size);
+
+    let movesCounter = movesCounter+1;
+    if(10<movesCounter)
+    {
+       let movesCounter = 0;
+       do ChooceNewDirection();
+    }
+    else
+    {
+        do SlowFrameRate();
+    }
+    return;
+  }
+  method void ApplyMovement()
+  {
+    var int travelSpeed;
+    let travelSpeed = 4;
+    if(~leftRightZerod)
+    {
+        if(leftRight)
+        {
+           let x = x+ travelSpeed;
+        }
+        else
+        {
+            let x = x- travelSpeed;
+        }
+    }
+    if(~upDownZerod)
+    {
+        if(upDown)
+        {
+           let y = y+ travelSpeed;
+        }
+        else
+        {
+            let y = y- travelSpeed;
+        }
+    }
+     if(x<0)
+    {
+         let x = 0;
+    }
+    else
+    {
+        if(510<(x + size))
+        {
+            let x = 510-size;
+        }
+    }
+    if(y<0)
+    {
+        let y = 0;
+    }
+    else
+    {
+        if(254<(y + size))
+        {
+            let y = 254-size;
+        }
+    }
+      return;
+  }
+  method void SlowFrameRate()
+  {
+      var int randomInt;
+      let randomInt = Utility.GetRandomNumberRange(10,canvasIn);
+      let randomInt = Utility.GetRandomNumberRange(10,canvasIn);
+      let randomInt = Utility.GetRandomNumberRange(10,canvasIn);
+      let randomInt = Utility.GetRandomNumberRange(10,canvasIn);
+      return;
+  }
+  method void ChooceNewDirection()
+  {
+    var int randomInt;
+    var boolean zeroDirection;
+    var boolean directionToBeZerod;
+
+    let randomInt = Utility.GetRandomNumberRange(10,canvasIn);
+    let leftRight =  Utility.isEven(randomInt);
+    let randomInt =  Utility.GetRandomNumberRange(10,canvasIn);
+    let upDown = Utility.isEven(randomInt);
+    let randomInt = Utility.GetRandomNumberRange(10,canvasIn);
+    let zeroDirection = Utility.isEven(randomInt);
+    let randomInt =   Utility.GetRandomNumberRange(10,canvasIn);
+    let directionToBeZerod= Utility.isEven(randomInt);
+    //zeroing non or either direction 
+    if(zeroDirection)
+    {
+        if(directionToBeZerod)
+        {
+            let leftRightZerod = true;
+            let upDownZerod = false;
+        }
+        else
+        {
+           let upDownZerod = true;
+           let leftRightZerod = false;
+        }
+    }
+    else
+    {
+        let leftRightZerod = false;
+        let upDownZerod = false;
+    }
+    return;
+  }
+
+  method void DrawSquare(int sizeP)
+  {
+    do Screen.drawRectangle(x,y,x+sizeP,y+sizeP);
+     return;
+  }
+
+  method void DrawColor(boolean col)
+  {
+      do Screen.setColor(col);
+    return;
+  }
+  
+  method void Dispose()
+  {
+    do Memory.deAlloc(this);
+   return;
+  }
+
+}
