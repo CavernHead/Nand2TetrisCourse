@@ -1,6 +1,6 @@
 # Nand2TetrisCourse
 Here is my code related to doing the exercises of the famous course nand2teris about making a computer from basic logic gates.
-The logic gate part of the course is not here, here is mainly the compilitation code to transform the high level programming language jack in to machine langauge.
+The logic gate part of the course is not here, here is mainly the compilitation code to transform the high level programming language jack into machine langauge.
 
 /Compiler/CompilerAssemblerToMachine:
   C# .net code
@@ -28,7 +28,7 @@ The logic gate part of the course is not here, here is mainly the compilitation 
   translates Jack language to Virtual Machine Language.
   main exection file: file:/Compiler/JackCompiler/MainRun.cs
   Tokenizer: file:/Compiler/JackCompiler/Tokenizer.cs, makes a token list.
-  Parser: file:/Compiler/JackCompiler/Parser.cs, currently just creates xml file just to show if things have being parsed properly.
+  Parser: file:/Compiler/JackCompiler/Parser.cs, currently just creates xml file just to show if things have been parsed properly.
   
   Other files and folders are translation tests.
   
@@ -38,6 +38,7 @@ The logic gate part of the course is not here, here is mainly the compilitation 
   
 /JackTest:
   test program using the jack language that writes numbers on the screen of the hack computer
+  
    special files:
    .jack high level simple language 
   
