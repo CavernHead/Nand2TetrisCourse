@@ -27,7 +27,7 @@ Here is my code related to doing the exercises of the famous course nand2teris a
   translates Jack language to Virtual Machine Language.
   main exection file: file:/Compiler/JackCompiler/MainRun.cs
   Tokenizer: file:/Compiler/JackCompiler/Tokenizer.cs, makes a token list.
-  Parser: file:/Compiler/JackCompiler/Parser.c, currently just creates xml file just to show if things have being parsed properly.
+  Parser: file:/Compiler/JackCompiler/Parser.cs, currently just creates xml file just to show if things have being parsed properly.
   
   Other files and folders are translation tests.
   
