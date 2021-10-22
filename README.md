@@ -5,7 +5,12 @@ Here is my code related to doing the exercises of the famous course nand2teris a
   C# .net code
   translates assembler code to the 16bit machine language of the so called "hack" computer
   main exection file: file:/Compiler/CompilerAssemblerToMachine/Compiler.cs
+  
   other files are translation tests.
+  
+   special files:
+  .hack: hack machine language
+  .asm: assembler for hack computer
 
 /Compiler/VmTranslator:
   C# .net code
@@ -15,8 +20,7 @@ Here is my code related to doing the exercises of the famous course nand2teris a
   other files and folders are translation tests.
   
   special files:
-  .hack: hack machine language
-  .asm: assembler for hack computer
+  .vm virtual machine languager
 
 /Compiler/JackCompiler:
   C# .net code
@@ -28,7 +32,8 @@ Here is my code related to doing the exercises of the famous course nand2teris a
   Other files and folders are translation tests.
   
   special files:
-  .vm virtual machine language
+  .jack high level simple language 
+ 
   
 /JackTest:
   test program using the jack language that writes numbers on the screen of the hack computer
