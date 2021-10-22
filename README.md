@@ -1,5 +1,6 @@
 # Nand2TetrisCourse
 Here is my code related to doing the exercises of the famous course nand2teris about making a computer from basic logic gates.
+The logic gate part of the course is not here, here is mainly the compilitation code to transform the high level programming language jack in to machine langauge.
 
 /Compiler/CompilerAssemblerToMachine:
   C# .net code
@@ -40,7 +41,8 @@ Here is my code related to doing the exercises of the famous course nand2teris a
    special files:
    .jack high level simple language 
   
- Here is a link to the nan2tetris course:
+ Here is a link to the nan2tetris course by Noam Nisan and Shimon Schocken:
  https://www.nand2tetris.org/
+ 
 
   
