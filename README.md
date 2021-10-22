@@ -4,7 +4,7 @@ Here is my code related to doing the exercises of the famous course nand2teris a
 /Compiler/CompilerAssemblerToMachine:
   C# .net code
   translates assembler code to the 16bit machine language of the so called "hack" computer
-  main exection file: file:/Compiler/CompilerAssemblerToMachine/Compiler.cs
+  main execution file: file:/Compiler/CompilerAssemblerToMachine/Compiler.cs
   
   other files are translation tests.
   
@@ -15,7 +15,7 @@ Here is my code related to doing the exercises of the famous course nand2teris a
 /Compiler/VmTranslator:
   C# .net code
   translates Virtual Machine code to Assembler.
-  main exection file: file:/Compiler/VmTranslator/Compiler.cs
+  main execution file: file:/Compiler/VmTranslator/Compiler.cs
   
   other files and folders are translation tests.
   
