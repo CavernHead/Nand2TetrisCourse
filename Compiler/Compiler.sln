@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompilerAssemblerToMachine", "CompilerAssemblerToMachine\CompilerAssemblerToMachine.csproj", "{64F0D4D6-8FB3-4842-90F3-712830614F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VmTranslator", "VmTranslator\VmTranslator.csproj", "{F5919360-B494-437D-986C-C0FBF1E1C77F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmTranslator", "VmTranslator\VmTranslator.csproj", "{F5919360-B494-437D-986C-C0FBF1E1C77F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JackCompiler", "JackCompiler\JackCompiler.csproj", "{81418651-573F-4101-9166-AF71BBB340DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F5919360-B494-437D-986C-C0FBF1E1C77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5919360-B494-437D-986C-C0FBF1E1C77F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5919360-B494-437D-986C-C0FBF1E1C77F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81418651-573F-4101-9166-AF71BBB340DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81418651-573F-4101-9166-AF71BBB340DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81418651-573F-4101-9166-AF71BBB340DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81418651-573F-4101-9166-AF71BBB340DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

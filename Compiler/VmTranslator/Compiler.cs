@@ -488,7 +488,9 @@ namespace VmTranslator
                 {
                     sw.WriteLine(current);
                 }
+                sw.Close();
             }
+            
         }
         public List<String> CallFunction(string functionName,string argumentsP,int callIdi)
         {

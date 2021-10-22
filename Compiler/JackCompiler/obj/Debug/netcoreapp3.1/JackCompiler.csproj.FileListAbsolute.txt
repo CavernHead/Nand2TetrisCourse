@@ -1,0 +1,13 @@
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\bin\Debug\netcoreapp3.1\JackCompiler.exe
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\bin\Debug\netcoreapp3.1\JackCompiler.deps.json
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\bin\Debug\netcoreapp3.1\JackCompiler.runtimeconfig.json
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\bin\Debug\netcoreapp3.1\JackCompiler.runtimeconfig.dev.json
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\bin\Debug\netcoreapp3.1\JackCompiler.dll
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\bin\Debug\netcoreapp3.1\JackCompiler.pdb
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\obj\Debug\netcoreapp3.1\JackCompiler.csprojAssemblyReference.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\obj\Debug\netcoreapp3.1\JackCompiler.AssemblyInfoInputs.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\obj\Debug\netcoreapp3.1\JackCompiler.AssemblyInfo.cs
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\obj\Debug\netcoreapp3.1\JackCompiler.csproj.CoreCompileInputs.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\obj\Debug\netcoreapp3.1\JackCompiler.dll
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\obj\Debug\netcoreapp3.1\JackCompiler.pdb
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\obj\Debug\netcoreapp3.1\JackCompiler.genruntimeconfig.cache
