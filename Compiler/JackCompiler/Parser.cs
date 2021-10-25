@@ -8,21 +8,29 @@ namespace JackCompiler
     class Parser
     {
         List<Token> allTokens;
-        StreamWriter stream;
+        StreamWriter streamXml;
+
         int parseCount;
         Token currentToken;
         Token nextToken;
         string[] statments = { "let","do","if","while","return" };
         char[] operations = {'+','-','*','/','&','|','<','>','='};
         char[] unaryOperations = { '-', '~' };
+
+        SymbolTable classLevelSymTable;
+        SymbolTable subroutineLevelSymTable;
+        VmFileManager vmFileMng;
+        public int uniqueIdentifier;
         public void ParseFile(List<Token> allTokensP, string fileName)
         {
+            
             allTokens = allTokensP;
             parseCount = 0;
             if(allTokens.Count>0)
             {
                 currentToken = allTokens[parseCount];
-                stream = File.CreateText(fileName);
+                streamXml = File.CreateText(Path.ChangeExtension(fileName, ".xml"));
+                vmFileMng = new VmFileManager(fileName);
                 if (currentToken.tokenValue == "class")
                 {
                     CompileClass(0);
@@ -31,7 +39,8 @@ namespace JackCompiler
                 {
                     Console.WriteLine("expected class keyword in file at start");
                 }
-                stream.Close();
+                streamXml.Close();
+                vmFileMng.Close();
             }
             else
             {
@@ -41,14 +50,20 @@ namespace JackCompiler
         }
         void CompileClass(int spacing)
         {
+           
             WriteToConsolXml("<class>", spacing);
             if (currentToken.tokenValue =="class"&& currentToken.tokenType == Token.Type.keyword)
             {
+                uniqueIdentifier = 0;
+
+                classLevelSymTable = new SymbolTable();
+                Console.WriteLine("__________new class symbol table");
                 WriteTerminalToken(spacing);
                 AdvanceParseCount();
                 if(currentToken.tokenType == Token.Type.identifier)
                 {
                     WriteTerminalToken(spacing);
+                    string className = currentToken.tokenValue;
                     AdvanceParseCount();
                     if(currentToken.tokenValue == "{")
                     {
@@ -70,7 +85,7 @@ namespace JackCompiler
                         {
                             if (currentToken.tokenValue == "function" || currentToken.tokenValue == "constructor" || currentToken.tokenValue == "method")
                             {
-                                CompileSubroutineDec(spacing);
+                                CompileSubroutineDec(spacing,className);
                                 AdvanceParseCount();
                             }
                             else
@@ -113,27 +128,53 @@ namespace JackCompiler
             if((classVar&&(currentToken.tokenValue == "field"||currentToken.tokenValue=="static"))||
                 (!classVar&&currentToken.tokenValue=="var"))
             {
+                string variableKind = currentToken.tokenValue;
                 AdvanceParseCount();
                 if(currentToken.tokenType == Token.Type.keyword|| currentToken.tokenType == Token.Type.identifier)//type
                 {
+                    string variableType = currentToken.tokenValue;
                     WriteTerminalToken(spacing);
                     AdvanceParseCount();
                     
                     while(true)
                     {
+                        Symbol variableSymbol = new Symbol();
+                        variableSymbol.type = variableType;
+                        if(variableKind == "field")
+                        {
+                            variableSymbol.kindE = Symbol.kind.field;
+                        }
+                        else
+                        if(variableKind == "var")
+                        {
+                            variableSymbol.kindE = Symbol.kind.var;
+                        }
+                        else
+                        if (variableKind == "static")
+                        {
+                            variableSymbol.kindE = Symbol.kind.staticE;
+                        }
+
                         if (currentToken.tokenType == Token.Type.identifier) //variable name
                         {
                             WriteTerminalToken(spacing);
+                            variableSymbol.name = currentToken.tokenValue;
                             AdvanceParseCount();
                             if (currentToken.tokenValue == ",")
                             {
+                                if (classVar){ classLevelSymTable.AddSymbol(variableSymbol); }
+                                else { subroutineLevelSymTable.AddSymbol(variableSymbol); }
+
                                 WriteTerminalToken(spacing);
                                 AdvanceParseCount();
                             }
                             else
                             if (currentToken.tokenValue == ";")
                             {
+
                                 WriteTerminalToken(spacing);
+                                if (classVar) { classLevelSymTable.AddSymbol(variableSymbol); }
+                                else { subroutineLevelSymTable.AddSymbol(variableSymbol); }
                                 if (classVar) { WriteToConsolXml("</classVarDec>",spacing); }
                                 else { WriteToConsolXml("</varDec>",spacing); }
                                 break;
@@ -161,12 +202,19 @@ namespace JackCompiler
             }
             
         }
-        void CompileSubroutineDec(int spacing)
+        void CompileSubroutineDec(int spacing,string className)
         {
             spacing++;
             WriteToConsolXml("<subroutineDec>",spacing);
-            if (currentToken.tokenValue == "function" || currentToken.tokenValue == "constructor" || currentToken.tokenValue == "method")
+            bool isConstructor = currentToken.tokenValue == "constructor";
+            bool isMethode = currentToken.tokenValue == "method";
+            if (currentToken.tokenValue == "function" || isConstructor || isMethode)
             {
+               
+               // string subroutineTyp = currentToken.tokenValue;
+                subroutineLevelSymTable = new SymbolTable();
+                Console.WriteLine("_____________new subroutine symbol table");
+
                 AdvanceParseCount();
                 if(currentToken.tokenType == Token.Type.keyword|| currentToken.tokenType == Token.Type.identifier)//return type
                 {
@@ -175,16 +223,22 @@ namespace JackCompiler
                     if (currentToken.tokenType == Token.Type.identifier)
                     {
                         WriteTerminalToken(spacing);
+                        string subroutineName = currentToken.tokenValue;
                         AdvanceParseCount();
                         if(currentToken.tokenValue == "(")
                         {
+                            if(isMethode)
+                            {
+                                subroutineLevelSymTable.AddSymbol("this", className,Symbol.kind.arg); //not sure if i should name the var this since it's a key word
+                            }
+                            
                             CompileParameterList(spacing);
                             AdvanceParseCount();
                             if (currentToken.tokenValue == "{")
                             {
                                 WriteTerminalToken(spacing);
                                 AdvanceParseCount();
-                                CompileSubroutineBody(spacing);
+                                CompileSubroutineBody(spacing,className,subroutineName, isMethode, isConstructor);
                                 AdvanceParseCount();
                                 if (currentToken.tokenValue == "}")
                                 {
@@ -235,13 +289,19 @@ namespace JackCompiler
                     }
                     else
                     {
+                        
                         if (currentToken.tokenType == Token.Type.keyword|| currentToken.tokenType == Token.Type.identifier) //type
                         {
+                            Symbol currentParameter = new Symbol();
+                            currentParameter.type = currentToken.tokenValue;
                             WriteTerminalToken(spacing);
                             AdvanceParseCount();
                             if (currentToken.tokenType == Token.Type.identifier)
                             {
                                 WriteTerminalToken(spacing);
+                                currentParameter.name = currentToken.tokenValue;
+                                currentParameter.kindE = Symbol.kind.arg;
+                                subroutineLevelSymTable.AddSymbol(currentParameter);
                                 AdvanceParseCount();
                                 if (currentToken.tokenValue == ","|| currentToken.tokenValue == ")")
                                 {
@@ -277,7 +337,7 @@ namespace JackCompiler
             }
            
         }
-        void CompileSubroutineBody(int spacing)
+        void CompileSubroutineBody(int spacing,string className,string subroutineName,bool methode,bool constructor)
         {
             spacing++;
             WriteToConsolXml("<subroutineBody>",spacing);
@@ -293,11 +353,27 @@ namespace JackCompiler
                    break;
                 }
             }
-            CompileStatements(spacing);
-            WriteToConsolXml("</subroutineBody>",spacing);
+            vmFileMng.DeclareSubroutine(className, subroutineName,subroutineLevelSymTable.qVar);
+            if(methode|| constructor)
+            {
+                if(constructor)
+                {
+                    vmFileMng.Push(VmFileManager.MemoryE.constant, classLevelSymTable.qFields);
+                    vmFileMng.CallSubroutine("Memory", "alloc", 1);
+                }
+                else
+                {
+                    vmFileMng.Push(VmFileManager.MemoryE.argument, 0);
+                }
+                vmFileMng.Pop(VmFileManager.MemoryE.pointer, 0);
+            }
+           
 
+            CompileStatements(spacing,className);
+            WriteToConsolXml("</subroutineBody>",spacing);
+ 
         }
-        void CompileStatements(int spacing)
+        void CompileStatements(int spacing,string classFrom)
         {
             spacing++;
             WriteToConsolXml("<statements>",spacing);
@@ -305,7 +381,7 @@ namespace JackCompiler
             {
                 if (currentToken.tokenValue == "let")
                 {
-                    CompileLetStatement(spacing);
+                    CompileLetStatement(spacing,classFrom);
                     if(nextToken!=null&&GetIsStatement(nextToken))
                     {
                         AdvanceParseCount();
@@ -315,7 +391,7 @@ namespace JackCompiler
                 else
                 if (currentToken.tokenValue == "do")
                 {
-                    CompileDoStatement(spacing);
+                    CompileDoStatement(spacing, classFrom);
                     if (nextToken != null && GetIsStatement(nextToken))
                     {
                         AdvanceParseCount();
@@ -324,7 +400,7 @@ namespace JackCompiler
                 else
                 if (currentToken.tokenValue == "if")
                 {
-                    CompileIfStatement(spacing);
+                    CompileIfStatement(spacing,classFrom);
                     if (nextToken != null && GetIsStatement(nextToken))
                     {
                         AdvanceParseCount();
@@ -333,7 +409,7 @@ namespace JackCompiler
                 else
                 if (currentToken.tokenValue == "while")
                 {
-                    CompileWhileStatement(spacing);
+                    CompileWhileStatement(spacing,classFrom);
                     if (nextToken != null && GetIsStatement(nextToken))
                     {
                         AdvanceParseCount();
@@ -342,7 +418,7 @@ namespace JackCompiler
                 else
                 if (currentToken.tokenValue == "return")
                 {
-                    CompileReturnStatement(spacing);
+                    CompileReturnStatement(spacing,classFrom);
                     if (nextToken != null && GetIsStatement(nextToken))
                     {
                         AdvanceParseCount();
@@ -358,7 +434,7 @@ namespace JackCompiler
             
             
         }
-        void CompileLetStatement(int spacing)
+        void CompileLetStatement(int spacing, string classFrom)
         {
             spacing++;
             WriteToConsolXml("<letStatement>",spacing);
@@ -368,16 +444,22 @@ namespace JackCompiler
                 AdvanceParseCount();
                 if(currentToken.tokenType == Token.Type.identifier)
                 {
+                    Symbol variableWorkingOn = FindVariableSymbol(currentToken.tokenValue);
                     WriteTerminalToken(spacing);
                     AdvanceParseCount();
+                    bool isArray = false;
                     if(currentToken.tokenValue == "[")
                     {
+                        isArray = true;
+                        vmFileMng.Push(variableWorkingOn.kindE, variableWorkingOn.pos);
                         WriteTerminalToken(spacing);
                         AdvanceParseCount();
-                        CompileExpression(spacing);
+                        CompileExpression(spacing,classFrom);
                         AdvanceParseCount();
                         if (currentToken.tokenValue == "]")
                         {
+                            vmFileMng.BasicOp(VmFileManager.OpE.add);
+                            vmFileMng.Pop(VmFileManager.MemoryE.temp,0);
                             WriteTerminalToken(spacing);
                             AdvanceParseCount();
                         }
@@ -390,10 +472,22 @@ namespace JackCompiler
                     {
                         WriteTerminalToken(spacing);
                         AdvanceParseCount();
-                        CompileExpression(spacing);
+                        CompileExpression(spacing,classFrom);
                         AdvanceParseCount();
                         if(currentToken.tokenValue == ";")
                         {
+                            if(isArray)
+                            {
+                                vmFileMng.Push(VmFileManager.MemoryE.temp, 0);
+                                vmFileMng.Pop(VmFileManager.MemoryE.pointer, 1);
+                                vmFileMng.Pop(VmFileManager.MemoryE.that, 0);
+                            }
+                            else
+                            {
+                                vmFileMng.Pop(variableWorkingOn.kindE, variableWorkingOn.pos);
+                            }
+                           
+
                             WriteToConsolXml("</letStatement>",spacing);
                         }
                         else
@@ -416,7 +510,7 @@ namespace JackCompiler
                 Console.WriteLine("CompileLetStatement expected 'let' keyword");
             }
         }
-        void CompileDoStatement(int spacing)
+        void CompileDoStatement(int spacing,string classFrom)
         {
             spacing++;
             WriteToConsolXml("<doStatement>",spacing);
@@ -424,10 +518,11 @@ namespace JackCompiler
             {
                 WriteTerminalToken(spacing);
                 AdvanceParseCount();
-                CompileSubroutineCall(spacing);
+                CompileSubroutineCall(spacing, classFrom);
                 AdvanceParseCount();
                 if(currentToken.tokenValue == ";")
                 {
+                    vmFileMng.Pop(VmFileManager.MemoryE.temp, 0);
                     WriteTerminalToken(spacing);
                     WriteToConsolXml("</doStatement>",spacing);
                 }
@@ -442,7 +537,7 @@ namespace JackCompiler
                 Console.WriteLine("CompileDoStatement expected 'do' keyword");
             }
         }
-        void CompileIfStatement(int spacing)
+        void CompileIfStatement(int spacing,string classFrom)
         {
             spacing++;
             WriteToConsolXml("<ifStatement>",spacing);
@@ -450,14 +545,18 @@ namespace JackCompiler
             {
                 WriteTerminalToken(spacing);
                 AdvanceParseCount();
+               
                 if (currentToken.tokenValue == "(")
                 {
                     WriteTerminalToken(spacing);
                     AdvanceParseCount();
-                    CompileExpression(spacing);
+                    CompileExpression(spacing,classFrom);
                     AdvanceParseCount();
                     if (currentToken.tokenValue == ")")
                     {
+                        int uniqueIfId = GetUniqueIdentifier();
+                        vmFileMng.BasicOp(VmFileManager.OpE.not);
+                        vmFileMng.IfGoto(classFrom+".else."+ uniqueIfId);
                         WriteTerminalToken(spacing);
                         AdvanceParseCount();
                         if(currentToken.tokenValue == "{")
@@ -466,11 +565,13 @@ namespace JackCompiler
                             AdvanceParseCount();
                             if (currentToken.tokenValue != "}")//need to make sure there is at least one statement
                             {
-                                CompileStatements(spacing);
+                                CompileStatements(spacing,classFrom);
                                 AdvanceParseCount();
                             }
+                            vmFileMng.Goto(classFrom + ".end." + uniqueIfId);
                             if (currentToken.tokenValue == "}")
                             {
+                                vmFileMng.Lable(classFrom + ".else." + uniqueIfId);
                                 WriteTerminalToken(spacing);
                                 if (nextToken != null&&nextToken.tokenValue == "else")
                                 {
@@ -483,7 +584,7 @@ namespace JackCompiler
                                         AdvanceParseCount();
                                         if (currentToken.tokenValue != "}")//need to make sure there is at least one statement
                                         {
-                                            CompileStatements(spacing);
+                                            CompileStatements(spacing,classFrom);
                                             AdvanceParseCount();
                                         }
                                         if (currentToken.tokenValue == "}")
@@ -505,6 +606,7 @@ namespace JackCompiler
                                 {
                                     WriteToConsolXml("</ifStatement>",spacing);
                                 }
+                                vmFileMng.Lable(classFrom + ".end." + uniqueIfId);
                             }
                             else
                             {
@@ -531,22 +633,28 @@ namespace JackCompiler
                 Console.WriteLine("CompileIfStatement expected 'if' keyword ");
             }
         }
-        void CompileWhileStatement(int spacing)
+        void CompileWhileStatement(int spacing, string classFrom)
         {
             spacing++;
             WriteToConsolXml("<whileStatement>",spacing);
             if (currentToken.tokenValue == "while")
             {
+                
                 WriteTerminalToken(spacing);
                 AdvanceParseCount();
+                int uniqueIfId = GetUniqueIdentifier();
+                vmFileMng.Lable(classFrom + ".whileStart." + uniqueIfId);
                 if (currentToken.tokenValue == "(")
                 {
                     WriteTerminalToken(spacing);
                     AdvanceParseCount();
-                    CompileExpression(spacing);
+                    CompileExpression(spacing,classFrom);
                     AdvanceParseCount();
                     if (currentToken.tokenValue == ")")
                     {
+                        
+                        vmFileMng.BasicOp(VmFileManager.OpE.not);
+                        vmFileMng.IfGoto(classFrom + ".end." + uniqueIfId);
                         WriteTerminalToken(spacing);
                         AdvanceParseCount();
                         if (currentToken.tokenValue == "{")
@@ -555,11 +663,14 @@ namespace JackCompiler
                             AdvanceParseCount();
                             if (currentToken.tokenValue != "}")
                             {
-                                CompileStatements(spacing);
+                                CompileStatements(spacing,classFrom);
                                 AdvanceParseCount();
                             }
+                            
                             if (currentToken.tokenValue == "}")
                             {
+                                vmFileMng.Goto(classFrom + ".whileStart." + uniqueIfId);
+                                vmFileMng.Lable(classFrom + ".end." + uniqueIfId);
                                 WriteTerminalToken(spacing);
                                 WriteToConsolXml("</whileStatement>",spacing);
                             }
@@ -588,7 +699,7 @@ namespace JackCompiler
                 Console.WriteLine("CompileWhileStatement expected 'while' keyword ");
             }
         }
-        void CompileReturnStatement(int spacing)
+        void CompileReturnStatement(int spacing,string classFrom)
         {
             spacing++;
             WriteToConsolXml("<returnStatement>",spacing);
@@ -600,13 +711,16 @@ namespace JackCompiler
                 {
                     WriteTerminalToken(spacing);
                     WriteToConsolXml("</returnStatement>",spacing);
+                    vmFileMng.Push(VmFileManager.MemoryE.constant, 0);
+                    vmFileMng.Return();
                 }
                 else
                 {
-                    CompileExpression(spacing);
+                    CompileExpression(spacing,classFrom);
                     AdvanceParseCount();
                     if (currentToken.tokenValue == ";")
                     {
+                        vmFileMng.Return();
                         WriteTerminalToken(spacing);
                         WriteToConsolXml("</returnStatement>",spacing);
                     }
@@ -622,20 +736,26 @@ namespace JackCompiler
                 Console.WriteLine("CompileReturnStatement expected 'return' keyword ");
             }
         }
-        void CompileSubroutineCall(int spacing)
+        void CompileSubroutineCall(int spacing,string classFrom)
         {
             spacing++;
+            
             WriteToConsolXml("<subroutineCall>",spacing);
             if (currentToken.tokenType == Token.Type.identifier)
             {
+
                 WriteTerminalToken(spacing);
-                if (nextToken != null && nextToken.tokenValue == ".") //first identifier is a class 
+                string firstIdentifierSubroutine = currentToken.tokenValue;
+                string secondIdentifierSubroutine ="";
+                if (nextToken != null && nextToken.tokenValue == ".") //first identifier is a class or object
                 {
+                   
                     AdvanceParseCount();
                     WriteTerminalToken(spacing);
                     AdvanceParseCount();
                     if (currentToken.tokenType == Token.Type.identifier)
                     {
+                        secondIdentifierSubroutine = currentToken.tokenValue;
                         WriteTerminalToken(spacing);
                     }
                     else
@@ -648,22 +768,39 @@ namespace JackCompiler
                     //first identifier is methode
                 }
                 AdvanceParseCount();
+
+                if (secondIdentifierSubroutine == "")
+                {
+                    vmFileMng.Push(VmFileManager.MemoryE.pointer, 0);
+                }
+                else
+                {
+                    Symbol representedVar = FindVariableSymbol(firstIdentifierSubroutine);
+                    if (representedVar != null)
+                    {
+                        vmFileMng.Push(representedVar.kindE, representedVar.pos);
+                    }
+                }
+
                 if (currentToken.tokenValue == "(")
                 {
+                    int qArguments = 0;
                     WriteTerminalToken(spacing);
                     AdvanceParseCount();
                     if (currentToken.tokenValue == ")")
                     {
                         WriteTerminalToken(spacing);
+                        qArguments = 0;
                         WriteToConsolXml("</subroutineCall>",spacing);
                     }
                     else
                     {
-                        CompileExpressionList(spacing);
+                         qArguments = CompileExpressionList(spacing,classFrom);
                         AdvanceParseCount();
                         if (currentToken.tokenValue == ")")
                         {
                             WriteTerminalToken(spacing);
+                            
                             WriteToConsolXml("</subroutineCall>",spacing);
                         }
                         else
@@ -671,6 +808,25 @@ namespace JackCompiler
                             Console.WriteLine("CompileSubroutineCall expected ')' ");
                         }
                     }
+                    if(secondIdentifierSubroutine=="")
+                    {
+                        vmFileMng.CallSubroutine(classFrom, firstIdentifierSubroutine, qArguments+1);
+                    }
+                    else
+                    {
+                        Symbol representedVar = FindVariableSymbol(firstIdentifierSubroutine);
+                        if (representedVar != null)
+                        {
+                            vmFileMng.CallSubroutine(representedVar.type, secondIdentifierSubroutine, qArguments+1);
+                        }
+                        else
+                        {
+                            vmFileMng.CallSubroutine(firstIdentifierSubroutine, secondIdentifierSubroutine, qArguments);
+                        }
+                       
+                    }
+
+                   
                 }
                 else
                 {
@@ -682,16 +838,18 @@ namespace JackCompiler
                 Console.WriteLine("CompileSubroutineCall expected identifier ");
             }
         }
-        void CompileExpressionList(int spacing)
+        int CompileExpressionList(int spacing, string classFrom)
         {
             spacing++;
             WriteToConsolXml("<expressionList>", spacing);
+            int quantityOfExpressions = 0;
             while(true)
             {
                 if(GetIsPotentialTerm(currentToken))//expression always start with termes
                 {
-                    CompileExpression(spacing);
-                    if(nextToken!=null&& nextToken.tokenValue==",")
+                    CompileExpression(spacing,classFrom);
+                    quantityOfExpressions++;
+                    if (nextToken!=null&& nextToken.tokenValue==",")
                     {
                         AdvanceParseCount();
                         WriteTerminalToken(spacing);
@@ -706,23 +864,44 @@ namespace JackCompiler
                 else
                 {
                     WriteToConsolXml("</expressionList>", spacing);//empty expression list shouldn't have to be dealing with this?
-                    Console.WriteLine("expressionList expected term or expression");
+                   // Console.WriteLine("expressionList expected term or expression");
                     break;
                 }
             }
+            return quantityOfExpressions;
         }
-        void CompileExpression(int spacing)
+        void CompileExpression(int spacing, string classFrom)
         {
             spacing++;
             WriteToConsolXml("<expression>", spacing);
+            string currentOperation ="";
             while (true)
             {
                 if (GetIsPotentialTerm(currentToken))
                 {
-                    CompileTerme(spacing);
-                    if(nextToken!=null&&IsOp(nextToken.tokenValue))
+                    CompileTerme(spacing,classFrom);
+                    if(currentOperation!="")
+                    {
+
+                        if (currentOperation == "/")
+                        {
+                            vmFileMng.CallSubroutine("Math", "divide",2);
+                        }
+                        else
+                        if(currentOperation=="*")
+                        {
+                            vmFileMng.CallSubroutine("Math", "multiply",2);
+                        }
+                        else
+                        {
+                            vmFileMng.BasicOp(currentOperation, true);
+                        }
+                        
+                    }
+                    if (nextToken!=null&&IsOp(nextToken.tokenValue))
                     {
                         AdvanceParseCount();
+                        currentOperation = currentToken.tokenValue;
                         WriteTerminalToken(spacing);
                         AdvanceParseCount();
                     }
@@ -740,26 +919,27 @@ namespace JackCompiler
                 }
             }
         }
-        void CompileTerme(int spacing)
+        void CompileTerme(int spacing, string classFrom)
         {
             spacing++;
             WriteToConsolXml("<term>", spacing);
             if (GetIsPotentialTerm(currentToken))
             {
                 //term is affected by a operation
+                string unarryOp = "";
                 if (IsUnaryOp(currentToken.tokenValue))
                 {
                     WriteTerminalToken(spacing);
+                    unarryOp = currentToken.tokenValue;
                     AdvanceParseCount();
                 }
-                bool isSubroutine =false;
-                bool isExpression = false;
+                
                 //Expression term
                 if (currentToken.tokenValue =="(")
                 {
-                    isExpression = true;
+                    
                     AdvanceParseCount();
-                    CompileExpression(spacing);
+                    CompileExpression(spacing,classFrom);
                     AdvanceParseCount();
                     if(currentToken.tokenValue == ")")
                     {
@@ -767,42 +947,85 @@ namespace JackCompiler
                     }
                     else
                     {
-                        Console.WriteLine("CompileTerme expected ']'");
+                        Console.WriteLine("CompileTerme expected ')'");
                     }
                     
                 }
                 else//Subroutine terme
                 if (currentToken.tokenType== Token.Type.identifier&&nextToken!=null&&(nextToken.tokenValue=="."|| nextToken.tokenValue =="(") )
                 {
-                    CompileSubroutineCall(spacing);
-                    isSubroutine = true;
+                    CompileSubroutineCall(spacing,classFrom);
+                    
                 }
+                else //identifier or constant 
+                {
+                    //Console.WriteLine("term dealing with: " + currentToken.tokenValue);
+                    if(currentToken.tokenValue == "null")
+                    {
+                        vmFileMng.Push(VmFileManager.MemoryE.constant, 0);
+                    }
+                    else
+                    if (currentToken.tokenValue == "this")
+                    {
+                        vmFileMng.Push(VmFileManager.MemoryE.pointer, 0);
+                    }
+                    else
+                    if (currentToken.tokenValue == "true")
+                    {
+                        vmFileMng.Push(VmFileManager.MemoryE.constant, 1);
+                        vmFileMng.BasicOp(VmFileManager.OpE.neg);
+                    }
+                    else
+                    if (currentToken.tokenValue == "false")
+                    {
+                        vmFileMng.Push(VmFileManager.MemoryE.constant, 0);
+                    }
+                    else
+                    if (currentToken.tokenType == Token.Type.identifier)
+                    {
+                        Symbol variableSym = FindVariableSymbol(currentToken.tokenValue);
+                        vmFileMng.Push(variableSym.kindE, variableSym.pos);
+                    }
+                    else
+                    if (currentToken.tokenType == Token.Type.integerConstant)
+                    {
+                        vmFileMng.Push(VmFileManager.MemoryE.constant, int.Parse(currentToken.tokenValue));
+                    }
+                    else
+                    if (currentToken.tokenType == Token.Type.StringConstant)
+                    {
+                        vmFileMng.Push(VmFileManager.MemoryE.constant, currentToken.tokenValue.Length);
+                        vmFileMng.CallSubroutine("String", "new", 1);
+                    }
+                    else
+                    {
+                        Console.WriteLine("CompileTerme expected identifier intiger constant or string constant ");
+                    }
+                    WriteTerminalToken(spacing);
+                }
+
                 //Term is array
-                if (nextToken != null && nextToken.tokenValue == "[")
+                if (nextToken != null && nextToken.tokenValue == "[") 
                 {
                         AdvanceParseCount();
                         WriteTerminalToken(spacing);
                         AdvanceParseCount();
-                        CompileExpression(spacing);
+                        CompileExpression(spacing,classFrom);
                         AdvanceParseCount();
                         if (currentToken.tokenValue == "]")
                         {
+                            vmFileMng.BasicOp(VmFileManager.OpE.add);
+                            vmFileMng.Pop(VmFileManager.MemoryE.pointer, 1);
+                            vmFileMng.Push(VmFileManager.MemoryE.that, 0);
                             WriteTerminalToken(spacing);
-                            WriteToConsolXml("</term>", spacing);
-                        }
-                        else
-                        {
-                            Console.WriteLine("CompileTerme expected ']'");
                         }
                 }
-                else
+                
+                if (unarryOp != "")
                 {
-                    if(!isSubroutine&&!isExpression)
-                    {
-                        WriteTerminalToken(spacing);
-                    }
-                    WriteToConsolXml("</term>", spacing);
+                    vmFileMng.BasicOp(unarryOp, false);
                 }
+                WriteToConsolXml("</term>", spacing);
             }
             else
             {
@@ -833,7 +1056,7 @@ namespace JackCompiler
             }
 
             WriteToConsolXml("</" + currentToken.tokenType.ToString() + ">", 0, false);
-            stream.WriteLine();
+            streamXml.WriteLine();
         }
         string CreatStringWithXTabs(int x)
         {
@@ -849,11 +1072,11 @@ namespace JackCompiler
         {
             if(nextLine)
             {
-                stream.WriteLine(CreatStringWithXTabs(tabs) + content);
+                streamXml.WriteLine(CreatStringWithXTabs(tabs) + content);
             }
             else
             {
-                stream.Write(CreatStringWithXTabs(tabs) + content);
+                streamXml.Write(CreatStringWithXTabs(tabs) + content);
             }
            
         }
@@ -881,6 +1104,14 @@ namespace JackCompiler
         }
         bool GetIsPotentialTerm(Token tkn)
         {
+            if(tkn.tokenValue=="this")
+            {
+                return true;
+            }
+            if (tkn.tokenValue == "true" || tkn.tokenValue == "false")
+            {
+                return true;
+            }
             if (tkn.tokenValue == "(")
             {
                 return true;
@@ -930,6 +1161,31 @@ namespace JackCompiler
             {
                 nextToken = null;
             }
+        }
+
+        int GetUniqueIdentifier()
+        {
+            uniqueIdentifier++;
+            return uniqueIdentifier-1;
+        }
+       
+        Symbol FindVariableSymbol(string varName)
+        {
+
+            Symbol current = subroutineLevelSymTable.GetSymbol(varName);
+            if (current == null)
+            {
+                current = classLevelSymTable.GetSymbol(varName);
+            }
+            if(current== null)
+            {
+               // subroutineLevelSymTable.PrintAllVariables();
+            }
+            return current;
+        }
+        int FindPositionOfVariable(string varName)
+        {
+            return FindVariableSymbol(varName).pos;
         }
        
     }

@@ -74,6 +74,9 @@
 				<returnStatement>
 					<keyword>return</keyword>
 					<expression>
+						<term>
+							<keyword>this</keyword>
+						</term>
 					</expression>
 					<symbol>;</symbol>
 				</returnStatement>
@@ -99,6 +102,11 @@
 						<identifier>deAlloc</identifier>
 						<symbol>(</symbol>
 						<expressionList>
+							<expression>
+								<term>
+									<keyword>this</keyword>
+								</term>
+							</expression>
 						</expressionList>
 						<symbol>)</symbol>
 					</subroutineCall>
@@ -130,6 +138,11 @@
 						<identifier>setColor</identifier>
 						<symbol>(</symbol>
 						<expressionList>
+							<expression>
+								<term>
+									<keyword>true</keyword>
+								</term>
+							</expression>
 						</expressionList>
 						<symbol>)</symbol>
 					</subroutineCall>
@@ -205,6 +218,11 @@
 						<identifier>setColor</identifier>
 						<symbol>(</symbol>
 						<expressionList>
+							<expression>
+								<term>
+									<keyword>false</keyword>
+								</term>
+							</expression>
 						</expressionList>
 						<symbol>)</symbol>
 					</subroutineCall>
@@ -467,6 +485,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>false</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>
@@ -551,6 +574,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>true</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>
@@ -653,6 +681,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>false</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>
@@ -724,6 +757,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>true</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>
@@ -830,6 +868,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>false</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>
@@ -914,6 +957,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>true</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>
@@ -1016,6 +1064,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>false</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>
@@ -1087,6 +1140,11 @@
 								<identifier>setColor</identifier>
 								<symbol>(</symbol>
 								<expressionList>
+									<expression>
+										<term>
+											<keyword>true</keyword>
+										</term>
+									</expression>
 								</expressionList>
 								<symbol>)</symbol>
 							</subroutineCall>

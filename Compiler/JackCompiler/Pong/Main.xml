@@ -2,11 +2,6 @@
 	<keyword>class</keyword>
 	<identifier>Main</identifier>
 	<symbol>{</symbol>
-	<classVarDec>
-		<keyword>boolean</keyword>
-		<identifier>test</identifier>
-		<symbol>;</symbol>
-	</classVarDec>
 	<subroutineDec>
 		<keyword>void</keyword>
 		<identifier>main</identifier>
@@ -17,18 +12,35 @@
 		<symbol>{</symbol>
 		<subroutineBody>
 			<varDec>
-				<identifier>SquareGame</identifier>
+				<identifier>PongGame</identifier>
 				<identifier>game</identifier>
 				<symbol>;</symbol>
 			</varDec>
 			<statements>
+				<doStatement>
+					<keyword>do</keyword>
+					<subroutineCall>
+						<identifier>PongGame</identifier>
+						<symbol>.</symbol>
+						<identifier>newInstance</identifier>
+						<symbol>(</symbol>
+						<symbol>)</symbol>
+					</subroutineCall>
+					<symbol>;</symbol>
+				</doStatement>
 				<letStatement>
 					<keyword>let</keyword>
 					<identifier>game</identifier>
 					<symbol>=</symbol>
 					<expression>
 						<term>
-							<identifier>game</identifier>
+							<subroutineCall>
+								<identifier>PongGame</identifier>
+								<symbol>.</symbol>
+								<identifier>getInstance</identifier>
+								<symbol>(</symbol>
+								<symbol>)</symbol>
+							</subroutineCall>
 						</term>
 					</expression>
 				</letStatement>
@@ -54,44 +66,6 @@
 					</subroutineCall>
 					<symbol>;</symbol>
 				</doStatement>
-				<returnStatement>
-					<keyword>return</keyword>
-					<symbol>;</symbol>
-				</returnStatement>
-			</statements>
-		</subroutineBody>
-		<symbol>}</symbol>
-	</subroutineDec>
-	<subroutineDec>
-		<keyword>void</keyword>
-		<identifier>more</identifier>
-		<parameterList>
-			<symbol>(</symbol>
-			<symbol>)</symbol>
-		</parameterList>
-		<symbol>{</symbol>
-		<subroutineBody>
-			<varDec>
-				<keyword>boolean</keyword>
-				<identifier>b</identifier>
-				<symbol>;</symbol>
-			</varDec>
-			<statements>
-				<ifStatement>
-					<keyword>if</keyword>
-					<symbol>(</symbol>
-					<expression>
-						<term>
-							<identifier>b</identifier>
-						</term>
-					</expression>
-					<symbol>)</symbol>
-					<symbol>{</symbol>
-					<symbol>}</symbol>
-					<keyword>else</keyword>
-					<symbol>{</symbol>
-					<symbol>}</symbol>
-				</ifStatement>
 				<returnStatement>
 					<keyword>return</keyword>
 					<symbol>;</symbol>

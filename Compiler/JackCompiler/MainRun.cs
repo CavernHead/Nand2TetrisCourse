@@ -10,7 +10,7 @@ namespace JackCompiler
     {  
         static void Main(string[] args)
         {
-            JackSyntaxAnalyze("Square");
+            JackSyntaxAnalyze("Pong");
         }
         public static void JackSyntaxAnalyze(string fileOrFolderShort)
         {
@@ -23,18 +23,17 @@ namespace JackCompiler
             {
                 tokenList =tokenizerUsing.TokenizeFile(fullNameOfFileOrFolder);
                 Parser currentParser = new Parser();
-                currentParser.ParseFile(tokenList, Path.ChangeExtension(fullNameOfFileOrFolder, ".xml"));
+                currentParser.ParseFile(tokenList,fullNameOfFileOrFolder);
             }
             else
             {
                 foreach (string current in Directory.GetFiles(fullNameOfFileOrFolder))
                 {
-                   
                     if(Path.GetExtension(current)  == ".jack")
                     {
                         tokenList=tokenizerUsing.TokenizeFile(current);
                         Parser currentParser = new Parser();
-                        currentParser.ParseFile(tokenList, Path.ChangeExtension(current, ".xml"));
+                        currentParser.ParseFile(tokenList,current);
                     }
                 }
             }
