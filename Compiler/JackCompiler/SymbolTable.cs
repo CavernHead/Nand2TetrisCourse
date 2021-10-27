@@ -84,8 +84,6 @@ namespace JackCompiler
             }
             return null;
         }
-        
-        
     }
     class Symbol
     {

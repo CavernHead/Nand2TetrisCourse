@@ -10,6 +10,7 @@ namespace JackCompiler
         List<Token> allTokens;
         StreamWriter streamXml;
 
+        bool xmlFile;
         int parseCount;
         Token currentToken;
         Token nextToken;
@@ -23,13 +24,17 @@ namespace JackCompiler
         public int uniqueIdentifier;
         public void ParseFile(List<Token> allTokensP, string fileName)
         {
-            
+            xmlFile = false;
             allTokens = allTokensP;
             parseCount = 0;
             if(allTokens.Count>0)
             {
                 currentToken = allTokens[parseCount];
-                streamXml = File.CreateText(Path.ChangeExtension(fileName, ".xml"));
+                if(xmlFile)
+                {
+                    streamXml = File.CreateText(Path.ChangeExtension(fileName, ".xml"));
+                }
+                
                 vmFileMng = new VmFileManager(fileName);
                 if (currentToken.tokenValue == "class")
                 {
@@ -39,7 +44,11 @@ namespace JackCompiler
                 {
                     Console.WriteLine("expected class keyword in file at start");
                 }
-                streamXml.Close();
+                if(streamXml!=null)
+                {
+                    streamXml.Close();
+                }
+                
                 vmFileMng.Close();
             }
             else
@@ -937,7 +946,6 @@ namespace JackCompiler
                 //Expression term
                 if (currentToken.tokenValue =="(")
                 {
-                    
                     AdvanceParseCount();
                     CompileExpression(spacing,classFrom);
                     AdvanceParseCount();
@@ -1034,29 +1042,32 @@ namespace JackCompiler
         }
         void WriteTerminalToken(int spacing)
         {
-            spacing++;
-            WriteToConsolXml("<" + currentToken.tokenType.ToString() + ">", spacing,false);
-            if (currentToken.tokenValue == ">")
+            if (streamXml != null)
             {
-                WriteToConsolXml("_GT_",0, false);
-            }
-            else
-            if (currentToken.tokenValue == "<")
-            {
-                WriteToConsolXml("_LT_", 0, false);
-            }
-            else
-            if (currentToken.tokenValue == "&")
-            {
-                WriteToConsolXml("_AND_", 0, false);
-            }
-            else
-            {
-                WriteToConsolXml(currentToken.tokenValue, 0, false);
-            }
+                spacing++;
+                WriteToConsolXml("<" + currentToken.tokenType.ToString() + ">", spacing, false);
+                if (currentToken.tokenValue == ">")
+                {
+                    WriteToConsolXml("_GT_", 0, false);
+                }
+                else
+                if (currentToken.tokenValue == "<")
+                {
+                    WriteToConsolXml("_LT_", 0, false);
+                }
+                else
+                if (currentToken.tokenValue == "&")
+                {
+                    WriteToConsolXml("_AND_", 0, false);
+                }
+                else
+                {
+                    WriteToConsolXml(currentToken.tokenValue, 0, false);
+                }
 
-            WriteToConsolXml("</" + currentToken.tokenType.ToString() + ">", 0, false);
-            streamXml.WriteLine();
+                WriteToConsolXml("</" + currentToken.tokenType.ToString() + ">", 0, false);
+                streamXml.WriteLine();
+            }
         }
         string CreatStringWithXTabs(int x)
         {
@@ -1070,13 +1081,16 @@ namespace JackCompiler
         }
         void WriteToConsolXml(string content,int tabs,bool nextLine= true)
         {
-            if(nextLine)
+            if (streamXml != null)
             {
-                streamXml.WriteLine(CreatStringWithXTabs(tabs) + content);
-            }
-            else
-            {
-                streamXml.Write(CreatStringWithXTabs(tabs) + content);
+                if (nextLine)
+                {
+                    streamXml.WriteLine(CreatStringWithXTabs(tabs) + content);
+                }
+                else
+                {
+                    streamXml.Write(CreatStringWithXTabs(tabs) + content);
+                }
             }
            
         }
