@@ -10,8 +10,26 @@
 class Math {
 
     static int printCount; 
+    static Array mult2Array;
     /** Initializes the library. */
     function void init() {
+        let mult2Array = Array.new(16);
+        let mult2Array[0] = 1;
+        let mult2Array[1] = 2;
+        let mult2Array[2] = 4;
+        let mult2Array[3] = 8;
+        let mult2Array[4] = 16;
+        let mult2Array[5] = 32;
+        let mult2Array[6] = 64;
+        let mult2Array[7] = 128;
+        let mult2Array[8] = 256;
+        let mult2Array[9] = 512;
+        let mult2Array[10] = 1024;
+        let mult2Array[11] = 2048;
+        let mult2Array[12] = 4096;
+        let mult2Array[13] = 8192;
+        let mult2Array[14] = 16384;
+        let mult2Array[15] = 32767;
         return;
     }
 
@@ -88,20 +106,20 @@ class Math {
     }
     function int multiplyPositive(int x, int y)
     {
-        var int currentBit;
+        var int bit;
         var int result;
-        let currentBit=1;
-        while((currentBit<x)|(currentBit=x))
+        let bit=0;
+        while((mult2Array[bit]<x)|(mult2Array[bit]=x))
         {
             //check if currentbit is 1;
-            if(~((x&currentBit)=0))
+            if(~((x&mult2Array[bit])=0))
             {
                 //add y shifted
                 let result = result+y;
             }
             //shift y
             let y= y+y;
-            let currentBit=currentBit+currentBit;
+            let bit=bit+1;
         }
         return result;
     }
