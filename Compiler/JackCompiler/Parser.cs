@@ -1176,13 +1176,11 @@ namespace JackCompiler
                 nextToken = null;
             }
         }
-
         int GetUniqueIdentifier()
         {
             uniqueIdentifier++;
             return uniqueIdentifier-1;
         }
-       
         Symbol FindVariableSymbol(string varName)
         {
 

@@ -23,7 +23,7 @@ class Memory {
         let outOfMemmryMsg = "heap out of memory";
         return;
     }
-
+    
     /** Returns the RAM value at the given address. */
     function int peek(int address) {
         return fullMemory[address];

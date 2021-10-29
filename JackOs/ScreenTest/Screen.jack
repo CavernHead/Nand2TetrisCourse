@@ -1,0 +1,288 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Screen.jack
+
+/**
+ * A library of functions for displaying graphics on the screen.
+ * The Hack physical screen consists of 256 rows (indexed 0..255, top to bottom)
+ * of 512 pixels each (indexed 0..511, left to right). The top left pixel on 
+ * the screen is indexed (0,0).
+ */
+class Screen {
+
+    /** Initializes the Screen. */
+    static boolean color;
+    static Array notMult2Array;
+    static Array mult2Array;
+    static Array mult32Array;
+    static Array div16Array;
+    static Array remainDiv16Mult2Array;
+    static Array remainDiv16NotMult2Array;
+
+    /** Initializes the library. */
+    function void init() {
+        var int i;
+        var int intermid;
+        let mult2Array = Array.new(16);
+        let mult2Array[0] = 1; //0
+        let mult2Array[1] = 2; //1
+        let mult2Array[2] = 4;//2
+        let mult2Array[3] = 8;//3
+        let mult2Array[4] = 16;//4
+        let mult2Array[5] = 32;//5
+        let mult2Array[6] = 64;//6
+        let mult2Array[7] = 128;//7
+        let mult2Array[8] = 256;//8
+        let mult2Array[9] = 512;//9
+        let mult2Array[10] = 1024;//10
+        let mult2Array[11] = 2048;//11
+        let mult2Array[12] = 4096;//12
+        let mult2Array[13] = 8192;//13
+        let mult2Array[14] = 16384;//14
+        let mult2Array[15] = ~32767;//15
+
+        let notMult2Array = Array.new(16);
+        let notMult2Array[0] = ~1;
+        let notMult2Array[1] = ~2;
+        let notMult2Array[2] = ~4;
+        let notMult2Array[3] = ~8;
+        let notMult2Array[4] = ~16;
+        let notMult2Array[5] = ~32;
+        let notMult2Array[6] = ~64;
+        let notMult2Array[7] = ~128;
+        let notMult2Array[8] = ~256;
+        let notMult2Array[9] = ~512;
+        let notMult2Array[10] = ~1024;
+        let notMult2Array[11] = ~2048;
+        let notMult2Array[12] = ~4096;
+        let notMult2Array[13] = ~8192;
+        let notMult2Array[14] = ~16384;
+        let notMult2Array[15] = 32767;
+        let i =0;
+        let mult32Array = Array.new(512);
+        while(i<256)
+        {
+            let mult32Array[i] = i*32;
+            let i = i+1;
+        }
+        let i =0;
+        let div16Array = Array.new(512);
+        while(i<512)
+        {
+          
+           let div16Array[i] = i/16;
+           let i = i+1;
+        }
+        let i =0;
+        let remainDiv16Mult2Array = Array.new(512);
+        while(i<512)
+        {
+           let remainDiv16Mult2Array[i] =i-((i/16)*16);
+           let remainDiv16Mult2Array[i] = mult2Array[remainDiv16Mult2Array[i]];
+           let i = i+1;
+        }
+        let i =0;
+        let remainDiv16NotMult2Array = Array.new(512);
+        while(i<512)
+        {
+           let remainDiv16NotMult2Array[i] = i-((i/16)*16);
+           let remainDiv16NotMult2Array[i] = notMult2Array[remainDiv16NotMult2Array[i]];
+           let i = i+1;
+        }
+        
+        
+        let color =true;
+        return;
+    }
+
+    /** Erases the entire screen. */
+    function void clearScreen() {
+        return;
+    }
+
+    /** Sets the current color, to be used for all subsequent drawXXX commands.
+     *  Black is represented by true, white by false. */
+    function void setColor(boolean b) {
+        let color = b;
+        return;
+    }
+
+    /** Draws the (x,y) pixel, using the current color. */
+    function void drawPixel(int x, int y) 
+    {
+        var int adress;
+        let adress = 16384+mult32Array[y]+div16Array[x];
+        if(color)
+        { 
+            do Memory.poke(adress,remainDiv16Mult2Array[x]|Memory.peek(adress));
+        }
+        else
+        {
+            do Memory.poke(adress,remainDiv16NotMult2Array[x]&Memory.peek(adress));
+        }
+        return;
+    }
+
+    function void drawHorizontalLine(int x1,int x2, int y)
+    {
+        var int i;
+        var int dir;
+        let x2 = x2-x1;
+        if(x2<0)
+        {
+            let x2 = -x2;
+            let dir =-1;
+        }
+        else
+        {
+            let dir =1;
+        }
+        while(i<x2)
+        {
+            let x1 = x1+dir;
+            let i=i+1;
+            do Screen.drawPixel(x1,y);
+        }
+         return;
+    }
+
+    function void drawVericalLine(int y1,int y2, int x)
+    {
+        var int i;
+        var int dir;
+        let y2 = y2-y1;
+        if(y2<0)
+        {
+            let y2 = -y2;
+            let dir =-1;
+        }
+        else
+        {
+            let dir =1;
+        }
+        while(i<y2)
+        {
+            let y1 = y1+dir;
+            let i=i+1;
+            do Screen.drawPixel(x,y1);
+        }
+         return;
+    }
+
+    /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
+    function void drawLine(int x1, int y1, int x2, int y2) 
+    {
+       var int dx;
+       var int dy;
+       var int diff;
+       var int dirX;
+       var int dirY;
+       let dx = x2-x1;
+       let dy = y2-y1;
+       if(dx=0)
+       {
+           do Screen.drawVericalLine(y1,y2,x1);
+           return;
+       }
+       if(dy=0)
+       {
+           do Screen.drawHorizontalLine(x1,x2,y1);
+           return;
+       }
+       if(dx<0)
+       {    
+           let dx =-dx;
+           let dirX =-1;
+       }
+       else
+       {
+            let dirX =1;
+       }
+       if(dy<0)
+       {
+           let dy =-dy;
+            let dirY =-1;
+       }
+       else
+       {
+            let dirY =1;
+       }
+
+       do Screen.drawPixel(x1,y1);
+       while(true)
+       {
+           if(diff<0)
+           {
+               let diff=diff+dy;
+               if(x1=x2)
+               {
+                    if(y1=y2)
+                    {        
+                        return;
+                    }
+               }
+               else
+               {
+                   let x1=x1+dirX;
+                 do Screen.drawPixel(x1,y1);
+               }
+           }
+           else
+           {
+                let diff=diff-dx;
+                if(y1=y2)
+                {
+                    if(x1=x2)
+                    {        
+                        return;
+                    }
+                }
+                else
+                {
+                    let y1=y1+dirY;
+                    do Screen.drawPixel(x1,y1);
+                 }
+           }
+       }
+        
+        return;
+    }
+
+    /** Draws a filled rectangle whose top left corner is (x1, y1)
+     * and bottom right corner is (x2,y2), using the current color. */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+        var int i;
+        var int j;
+        let y2 = y2-y1;
+        let x2 = x2-x1;
+        while(i<y2)
+        {
+            let j = 0;
+            while(j<x2)
+            {
+                do Screen.drawPixel(x1+j,y1+i);
+                let j=j+1;
+            }
+            let i=i+1;
+        }
+        return;
+    }
+
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    function void drawCircle(int x, int y, int r) 
+    {
+        var int dy;
+        var int dx;
+        var int rSq;
+        let dy = -r;
+        let rSq = r*r;
+        while(dy<(r+1))
+        {
+            let dx = Math.sqrt(rSq-(dy*dy));
+            do Screen.drawHorizontalLine(x-dx,x+dx,y+dy);
+            let dy=dy+1;
+        }
+        return;
+    }
+}

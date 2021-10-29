@@ -42,6 +42,22 @@ class Math {
         }
         return x;
     }
+    //modulo
+    function int modulo(int x,int y)
+    {
+    var int division;
+    var int returnValue;
+        if(x>y)
+        {
+           let division = Math.divide(x,y);
+           let returnValue = x-Math.multiply(division,y);
+           return returnValue;
+        }
+        else
+        {
+            return x;
+        }
+    }
 
     /** Returns the product of x and y. 
      *  When a Jack compiler detects the multiplication operator '*' in the 
