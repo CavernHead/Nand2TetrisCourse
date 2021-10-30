@@ -10,10 +10,11 @@ class Main {
     function void main() {
         var char key;
 
+        
         do Output.printString("Wait test:");
         do Output.println();
         do Output.printString("Press any key. After 2 seconds, another message will be printed:");
-
+//
         while (key = 0) {
 	        let key = Keyboard.keyPressed();
         }
@@ -22,7 +23,7 @@ class Main {
         }
         
         do Sys.wait(2000);
-
+//
         do Output.println();
         do Output.printString("Time is up. Make sure that 2 seconds elapsed.");
         

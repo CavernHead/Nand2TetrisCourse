@@ -1009,6 +1009,14 @@ namespace JackCompiler
                     {
                         vmFileMng.Push(VmFileManager.MemoryE.constant, currentToken.tokenValue.Length);
                         vmFileMng.CallSubroutine("String", "new", 1);
+                        vmFileMng.Pop(VmFileManager.MemoryE.temp,1);
+                        for (int i= 0; i< currentToken.tokenValue.Length;i++)
+                        {
+                            vmFileMng.Push(VmFileManager.MemoryE.temp,1);
+                            vmFileMng.Push(VmFileManager.MemoryE.constant,currentToken.tokenValue[i]);
+                            vmFileMng.CallSubroutine("String", "appendChar", 2);
+                        }
+
                     }
                     else
                     {

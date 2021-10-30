@@ -10,7 +10,7 @@ namespace JackCompiler
     {
         static void Main(string[] args)
         {
-            JackSyntaxAnalyze("OutputTest");
+            JackSyntaxAnalyze("StringTest");
         }
         public static void JackSyntaxAnalyze(string fileOrFolderShort)
         {
