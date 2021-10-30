@@ -22,7 +22,6 @@ namespace JackCompiler
                 List<string> instructions = new List<string>();
                 using (StreamReader streamReaderOfFile = File.OpenText(fileNameFullNAme))
                 {
-
                     string currentLine = "";
                     bool wideComment = false;
                     while ((currentLine = streamReaderOfFile.ReadLine()) != null)
@@ -103,6 +102,7 @@ namespace JackCompiler
                                 }
                                 void AddTokenFromWord()
                                 {
+                                    
                                     if (currentToken != "")
                                     {
                                         allTokens.Add(getTokenFromWord(currentToken));

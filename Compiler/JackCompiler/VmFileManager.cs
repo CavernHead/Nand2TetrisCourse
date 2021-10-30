@@ -33,17 +33,24 @@ namespace JackCompiler
             or,
             not
         }
-        public VmFileManager(string fileName)
+        public VmFileManager(string fileName, StreamWriter str)
         {
-            streamVm = File.CreateText(Path.ChangeExtension(fileName, ".vm"));
+            streamVm = str;
+            
+        }
+        void doWhenWriteToFile()
+        {
+            streamVm.Flush();
         }
         public void Push(MemoryE memtyp,int varPos)
         {
             streamVm.WriteLine("push " + getStringMem(memtyp) + " " + varPos);
+            doWhenWriteToFile();
         }
         public void Pop(MemoryE memtyp, int varPos)
         {
             streamVm.WriteLine("pop " + getStringMem(memtyp) + " " + varPos);
+            doWhenWriteToFile();
         }
         public void Pop(Symbol.kind varKind,int varPos)
         {
@@ -136,22 +143,27 @@ namespace JackCompiler
         public void Lable(string lblName)
         {
             streamVm.WriteLine("label " + lblName);
+            doWhenWriteToFile();
         }
         public void Goto(string lblName)
         {
             streamVm.WriteLine("goto "+ lblName);
+            doWhenWriteToFile();
         }
         public void IfGoto(string lblName)
         {
             streamVm.WriteLine("if-goto " + lblName);
+            doWhenWriteToFile();
         }
         public void CallSubroutine(string className,string subName,int numberOfArguments)
         {
             streamVm.WriteLine("call "+ className+"."+subName+" "+numberOfArguments);
+            doWhenWriteToFile();
         }
         public void DeclareSubroutine(string className,string subName, int numberOfLocals)
         {
             streamVm.WriteLine("function "+ className+"."+subName + " "+numberOfLocals);
+            doWhenWriteToFile();
         }
         public void Return()
         {
@@ -175,7 +187,7 @@ namespace JackCompiler
 
         public void Close()
         {
-            streamVm.Close();
+            //streamVm.Close();
         }
     }
 }

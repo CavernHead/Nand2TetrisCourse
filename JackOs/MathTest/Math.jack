@@ -45,8 +45,8 @@ class Math {
     //modulo
     function int modulo(int x,int y)
     {
-    var int division;
-    var int returnValue;
+        var int division;
+        var int returnValue;
         if(x>y)
         {
            let division = Math.divide(x,y);

@@ -5,7 +5,7 @@ using JackCompiler;
 
 namespace JackCompiler
 {
-     class SymbolTable
+    class SymbolTable
     {
         List<Symbol> symbolList;
 
@@ -62,7 +62,7 @@ namespace JackCompiler
                     symp.pos = qStatics;
                     qStatics++;
                 }
-                Console.WriteLine(symp.GetSring());
+                //Console.WriteLine(symp.GetSring());
 
             }
             else

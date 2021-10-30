@@ -34,17 +34,22 @@ namespace JackCompiler
                 {
                     streamXml = File.CreateText(Path.ChangeExtension(fileName, ".xml"));
                 }
+                using (StreamWriter streamVm = File.CreateText(Path.ChangeExtension(fileName, ".vm")))
+                {
+                   
+                    vmFileMng = new VmFileManager(fileName, streamVm);
+                    if (currentToken.tokenValue == "class")
+                    {
+                        CompileClass(0);
+                    }
+                    else
+                    {
+                        Console.WriteLine("expected class keyword in file at start");
+                    }
+                   
+                }
                 
-                vmFileMng = new VmFileManager(fileName);
-                if (currentToken.tokenValue == "class")
-                {
-                    CompileClass(0);
-                }
-                else
-                {
-                    Console.WriteLine("expected class keyword in file at start");
-                }
-                if(streamXml!=null)
+                if (streamXml!=null)
                 {
                     streamXml.Close();
                 }
@@ -66,7 +71,7 @@ namespace JackCompiler
                 uniqueIdentifier = 0;
 
                 classLevelSymTable = new SymbolTable();
-                Console.WriteLine("__________new class symbol table");
+                //Console.WriteLine("__________new class symbol table");
                 WriteTerminalToken(spacing);
                 AdvanceParseCount();
                 if(currentToken.tokenType == Token.Type.identifier)
@@ -222,7 +227,7 @@ namespace JackCompiler
                
                // string subroutineTyp = currentToken.tokenValue;
                 subroutineLevelSymTable = new SymbolTable();
-                Console.WriteLine("_____________new subroutine symbol table");
+                //Console.WriteLine("_____________new subroutine symbol table");
 
                 AdvanceParseCount();
                 if(currentToken.tokenType == Token.Type.keyword|| currentToken.tokenType == Token.Type.identifier)//return type

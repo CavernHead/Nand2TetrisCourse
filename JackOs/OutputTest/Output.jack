@@ -18,10 +18,25 @@ class Output {
 
     // Character map for displaying characters
     static Array charMaps; 
-    static int cursorColumn;
-    static int cursorRow;
+    static Array exp10;
+    static Array digitArray;
+    static int cursorY;
+    static int cursorX;
+    static int firstHalfRegister;
+    static int secondHalfRegister;
+    
     /** Initializes the screen, and locates the cursor at the screen's top-left. */
     function void init() {
+        let exp10 = Array.new(5);
+        let digitArray = Array.new(5);
+        let exp10[0] = 1;
+        let exp10[1] = 10;
+        let exp10[2] = 100;
+        let exp10[3] = 1000;
+        let exp10[4] = 10000;
+
+        let firstHalfRegister =255;
+        let secondHalfRegister = ~255;
         do Output.initMap();
          return;
     }
@@ -29,7 +44,8 @@ class Output {
     // Initializes the character map array
     function void initMap() {
         var int i;
-    
+      
+
         let charMaps = Array.new(127);
         
         // Black square, used for displaying non-printable characters.
@@ -74,7 +90,7 @@ class Output {
         do Output.create(64,30,51,51,59,59,59,27,3,30,0,0);  // @
         do Output.create(63,30,51,51,24,12,12,0,12,12,0,0);  // ?
 
-        do Output.create(65,0,0,0,0,0,0,0,0,0,0,0);          // A ** TO BE FILLED **
+        do Output.create(65,0,0,0,14,24,30,27,27,54,0,0);    // A ** TO BE FILLED **
         do Output.create(66,31,51,51,51,31,51,51,51,31,0,0); // B
         do Output.create(67,28,54,35,3,3,3,35,54,28,0,0);    // C
         do Output.create(68,15,27,51,51,51,51,51,27,15,0,0); // D
@@ -177,9 +193,9 @@ class Output {
     /** Moves the cursor to the j-th column of the i-th row,
      *  and erases the character displayed there. */
     function void moveCursor(int i, int j) {
-        let cursorRow =  i;
-        let cursorColumn = j;
-         return;
+        let cursorX =  j;
+        let cursorY = i;
+        return;
     }
 
     /** Displays the given character at the cursor location,
@@ -189,13 +205,48 @@ class Output {
         var int i;
         var Array cMap;
         var int address;
-        let cMap =getMap(c);
-        let address = 16384+32*cursorColumn+16*cursorRow
-        while(i<11)
+        var int register;
+        let cMap =Output.getMap(c);
+        let address = 16384+(cursorX/2)+(cursorY*352);
+        if((cursorX&1)=0)
         {
-            do Memory.poke(address,cMap[i])
-            let address = address+1;
-            let i =i+1; 
+            do Memory.poke(8000,666);
+            while(i<11)
+            {
+                let register= Memory.peek(address);
+               
+                let register=register&secondHalfRegister;
+                let register=register+cMap[i];
+               
+                do Memory.poke(address,register);
+                let address= address+32;
+                let i =i+1; 
+            }
+        }
+        else
+        {
+            while(i<11)
+            {
+                let register= Memory.peek(address);
+              
+                let register=register&firstHalfRegister;
+                let register=register+(256*cMap[i]);
+                
+                do Memory.poke(address,register);
+                let address= address+32;
+                let i =i+1; 
+            }
+        }
+        
+        let cursorX=cursorX+1;
+        if(63<cursorX)
+        {
+            let cursorX =0;
+            let cursorY=cursorY+1;
+            if(22<cursorY)
+            {
+                let cursorY =0;
+            }
         }
         return;
         
@@ -204,22 +255,96 @@ class Output {
     /** displays the given string starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printString(String s) {
-         return;
+        var int i;
+        while(i<s.length())
+        {
+            do Output.printChar(s.charAt(i));
+            let i = i +1;
+        }
+        return;
     }
 
     /** Displays the given integer starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printInt(int i) {
+
+        var int j;
+        var int prJ;
+        var int currentDigit;
+        let j = 1;
+        let prJ= 0;
+        if(i=0)
+        {
+             do Output.printChar(48);
+             return;
+        }
+        if(i<0)
+        {
+            let i =-i;
+            do Output.printChar(45);
+        }
+
+        while(~(i=0))
+        {
+            if(j=5)
+            {
+                let currentDigit= i/exp10[prJ];
+            }
+            else
+            {
+                let currentDigit= Output.modulo(i,exp10[j])/exp10[prJ];
+            }
+            let digitArray[prJ]=48+currentDigit;
+            let i=i-(exp10[prJ]*currentDigit);
+            let j = j+1;
+            let prJ= prJ+1;
+        }
+        let i =prJ-1;
+        while(-1<i)
+        {
+            do Output.printChar(digitArray[i]);
+            let i =i-1;
+        }
          return;
     }
 
-    /** Advances the cursor to the beginning of the next line. */
+    function int modulo(int x,int y)
+    {
+        var int division;
+        if(x>y)
+        {
+           return x-Math.multiply(Math.divide(x,y),y);
+        }
+        else
+        {
+            return x;
+        }
+    }
+
+    /* Advances the cursor to the beginning of the next line.*/
+
     function void println() {
-         return;
+        let cursorX =0;
+        let cursorY=cursorY+1;
+        if(22<cursorY)
+        {
+            let cursorY =0;
+        }
+        return;
     }
 
     /** Moves the cursor one column back. */
     function void backSpace() {
+        let cursorX =cursorX-1;
+        if(cursorX<0)
+        {
+            let cursorX = 63;
+            let cursorY=cursorY-1;
+            if(cursorY<0)
+            {
+                 let cursorY =22;
+            }
+        }
          return;
     }
 }
