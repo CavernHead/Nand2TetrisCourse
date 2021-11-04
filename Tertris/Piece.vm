@@ -1,0 +1,1875 @@
+function Piece.new 2
+push constant 22
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 0
+push constant 1000
+pop this 18
+push constant 100
+pop this 19
+push constant 100
+pop this 20
+push constant 5
+push constant 5
+call Grid.new 2
+pop this 3
+push argument 0
+pop this 21
+push constant 0
+pop this 10
+push constant 0
+pop this 11
+push constant 0
+pop this 12
+push constant 35
+pop this 15
+push constant 8
+pop this 16
+push constant 7
+call Array.new 1
+pop this 4
+push constant 4
+call Array.new 1
+pop local 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push pointer 0
+push constant 0
+push local 0
+call Piece.RecordPieceInfo 3
+pop temp 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push pointer 0
+push constant 1
+push local 0
+call Piece.RecordPieceInfo 3
+pop temp 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push pointer 0
+push constant 2
+push local 0
+call Piece.RecordPieceInfo 3
+pop temp 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push pointer 0
+push constant 3
+push local 0
+call Piece.RecordPieceInfo 3
+pop temp 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push pointer 0
+push constant 4
+push local 0
+call Piece.RecordPieceInfo 3
+pop temp 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+neg
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push pointer 0
+push constant 5
+push local 0
+call Piece.RecordPieceInfo 3
+pop temp 0
+push constant 4
+call Array.new 1
+pop local 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 1
+push constant 0
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 0
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push pointer 0
+push constant 6
+push local 0
+call Piece.RecordPieceInfo 3
+pop temp 0
+push pointer 0
+call Piece.resetPiece 1
+pop temp 0
+push pointer 0
+return
+function Piece.RecordPieceInfo 12
+push argument 0
+pop pointer 0
+push constant 4
+call Array.new 1
+pop local 5
+push argument 1
+push this 4
+add
+push local 5
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push constant 4
+call Array.new 1
+pop local 6
+push this 3
+call Grid.Clean 1
+pop temp 0
+push constant 0
+pop local 1
+label WHILE_EXP1
+push local 1
+push constant 4
+lt
+not
+if-goto WHILE_END1
+push local 1
+push argument 2
+add
+push local 1
+push argument 2
+add
+pop pointer 1
+push that 0
+call Utility.rotate90 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push argument 2
+add
+pop pointer 1
+push that 0
+pop local 9
+push local 1
+push local 6
+add
+push constant 0
+push local 9
+add
+pop pointer 1
+push that 0
+push constant 1
+push local 9
+add
+pop pointer 1
+push that 0
+push constant 0
+call BlockInfo.new 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push this 3
+push constant 2
+push constant 0
+push local 9
+add
+pop pointer 1
+push that 0
+add
+push constant 2
+push constant 1
+push local 9
+add
+pop pointer 1
+push that 0
+add
+push constant 0
+not
+call Grid.Set 4
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+push constant 0
+pop local 1
+label WHILE_EXP2
+push local 1
+push constant 4
+lt
+not
+if-goto WHILE_END2
+push local 1
+push local 6
+add
+pop pointer 1
+push that 0
+pop local 10
+push constant 2
+push local 10
+call BlockInfo.GetX 1
+add
+push constant 1
+sub
+pop local 4
+push local 4
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 10
+push constant 0
+not
+call BlockInfo.SetCol 2
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push this 3
+push local 4
+push constant 2
+push local 10
+call BlockInfo.GetY 1
+add
+call Grid.Get 3
+not
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 10
+push constant 0
+not
+call BlockInfo.SetCol 2
+pop temp 0
+label IF_FALSE1
+label IF_END0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP2
+label WHILE_END2
+push this 3
+call Grid.getSizeX 1
+call Array.new 1
+pop local 7
+push constant 0
+pop local 1
+push constant 0
+pop local 3
+label WHILE_EXP3
+push local 1
+push this 3
+call Grid.getSizeX 1
+lt
+not
+if-goto WHILE_END3
+push constant 0
+pop local 2
+push constant 0
+not
+pop local 11
+label WHILE_EXP4
+push local 2
+push this 3
+call Grid.getSizeX 1
+lt
+push local 11
+and
+not
+if-goto WHILE_END4
+push this 3
+push local 1
+push local 2
+call Grid.Get 3
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop local 11
+push local 3
+push local 7
+add
+push local 1
+push constant 2
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 3
+push constant 1
+add
+pop local 3
+label IF_FALSE2
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP4
+label WHILE_END4
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP3
+label WHILE_END3
+push local 3
+push local 7
+add
+push constant 666
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+call Array.new 1
+pop local 8
+push constant 0
+pop local 1
+push constant 0
+pop local 3
+push constant 0
+not
+pop local 11
+label WHILE_EXP5
+push local 1
+push this 3
+call Grid.getSizeX 1
+lt
+push local 11
+and
+not
+if-goto WHILE_END5
+push constant 0
+pop local 2
+label WHILE_EXP6
+push local 2
+push this 3
+call Grid.getSizeX 1
+lt
+push local 11
+and
+not
+if-goto WHILE_END6
+push this 3
+push local 2
+push local 1
+call Grid.Get 3
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+pop local 11
+label IF_FALSE3
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP6
+label WHILE_END6
+push local 11
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push local 3
+push constant 1
+add
+pop local 3
+label IF_FALSE4
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP5
+label WHILE_END5
+push constant 0
+push local 8
+add
+push constant 2
+push local 3
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push this 3
+call Grid.getSizeX 1
+push constant 1
+sub
+pop local 1
+push constant 0
+pop local 3
+push constant 0
+not
+pop local 11
+label WHILE_EXP7
+push constant 1
+neg
+push local 1
+lt
+push local 11
+and
+not
+if-goto WHILE_END7
+push constant 0
+pop local 2
+label WHILE_EXP8
+push local 2
+push constant 5
+lt
+push local 11
+and
+not
+if-goto WHILE_END8
+push this 3
+push local 2
+push local 1
+call Grid.Get 3
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push constant 0
+pop local 11
+label IF_FALSE5
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP8
+label WHILE_END8
+push local 11
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push local 3
+push constant 1
+add
+pop local 3
+label IF_FALSE6
+push local 1
+push constant 1
+sub
+pop local 1
+goto WHILE_EXP7
+label WHILE_END7
+push constant 1
+push local 8
+add
+push constant 2
+push local 3
+sub
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push local 5
+add
+push local 6
+push local 7
+push local 8
+call ShapeInfo.new 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+pop local 0
+label WHILE_EXP9
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END9
+push local 0
+push argument 2
+add
+pop pointer 1
+push that 0
+pop local 9
+push local 9
+call Array.dispose 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP9
+label WHILE_END9
+push argument 2
+call Array.dispose 1
+pop temp 0
+push constant 0
+return
+function Piece.resetPiece 0
+push argument 0
+pop pointer 0
+push constant 0
+pop static 1
+push this 18
+pop this 17
+push constant 0
+pop static 0
+push this 0
+pop this 2
+push constant 0
+pop this 1
+push this 15
+pop this 13
+push this 16
+pop this 14
+push this 2
+push this 4
+add
+pop pointer 1
+push that 0
+pop this 5
+push this 1
+push this 5
+add
+pop pointer 1
+push that 0
+pop this 6
+push this 6
+call ShapeInfo.getBlockInfo 1
+pop this 7
+push this 6
+call ShapeInfo.getBounds 1
+pop this 8
+push this 6
+call ShapeInfo.getColonnes 1
+pop this 9
+push pointer 0
+call Piece.draw 1
+pop temp 0
+push constant 0
+return
+function Piece.update 0
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+add
+pop this 0
+push constant 6
+push this 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop this 0
+label IF_FALSE0
+call Keyboard.keyPressed 0
+push constant 130
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 19
+pop this 17
+goto IF_END1
+label IF_FALSE1
+push this 18
+pop this 17
+label IF_END1
+push static 0
+push constant 1
+add
+pop static 0
+push this 17
+push static 0
+lt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+pop static 0
+push pointer 0
+push constant 1
+neg
+push constant 0
+call Piece.changePostion 3
+pop temp 0
+label IF_FALSE2
+call Keyboard.keyPressed 0
+push constant 132
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push constant 0
+not
+pop this 10
+goto IF_END3
+label IF_FALSE3
+push this 10
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push pointer 0
+call Piece.erase 1
+pop temp 0
+push pointer 0
+call Piece.rotate 1
+pop temp 0
+push pointer 0
+call Piece.draw 1
+pop temp 0
+push pointer 0
+call Piece.collision 1
+pop temp 0
+push constant 0
+pop this 10
+label IF_FALSE4
+label IF_END3
+call Keyboard.keyPressed 0
+push constant 131
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push static 1
+push constant 1
+add
+pop static 1
+push this 11
+not
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 20
+pop static 1
+push constant 0
+not
+pop this 11
+label IF_FALSE6
+push this 20
+push static 1
+lt
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 0
+pop static 1
+push pointer 0
+push constant 0
+push constant 1
+neg
+call Piece.changePostion 3
+pop temp 0
+label IF_FALSE7
+goto IF_END5
+label IF_FALSE5
+push this 11
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
+push constant 0
+pop this 11
+label IF_FALSE8
+label IF_END5
+call Keyboard.keyPressed 0
+push constant 133
+eq
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
+push static 1
+push constant 1
+add
+pop static 1
+push this 12
+not
+if-goto IF_TRUE10
+goto IF_FALSE10
+label IF_TRUE10
+push this 20
+pop static 1
+push constant 0
+not
+pop this 12
+label IF_FALSE10
+push this 20
+push static 1
+lt
+if-goto IF_TRUE11
+goto IF_FALSE11
+label IF_TRUE11
+push constant 0
+pop static 1
+push pointer 0
+push constant 0
+push constant 1
+call Piece.changePostion 3
+pop temp 0
+label IF_FALSE11
+goto IF_END9
+label IF_FALSE9
+push this 12
+if-goto IF_TRUE12
+goto IF_FALSE12
+label IF_TRUE12
+push constant 0
+pop this 12
+label IF_FALSE12
+label IF_END9
+push constant 0
+return
+function Piece.changePostion 1
+push argument 0
+pop pointer 0
+push pointer 0
+call Piece.erase 1
+pop temp 0
+push this 14
+push argument 2
+add
+pop local 0
+push this 13
+push argument 1
+add
+pop this 13
+push pointer 0
+push this 13
+push local 0
+call Piece.CheckPosInBounds 3
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+pop this 14
+label IF_FALSE0
+push pointer 0
+call Piece.draw 1
+pop temp 0
+push pointer 0
+call Piece.collision 1
+pop temp 0
+push constant 0
+return
+function Piece.CheckPosInBounds 6
+push argument 0
+pop pointer 0
+push argument 2
+push constant 0
+push this 8
+add
+pop pointer 1
+push that 0
+sub
+pop local 0
+push argument 2
+push constant 1
+push this 8
+add
+pop pointer 1
+push that 0
+add
+pop local 1
+push constant 1
+neg
+push local 0
+lt
+push local 1
+push constant 16
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+label WHILE_EXP0
+push local 2
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push local 2
+push this 7
+add
+pop pointer 1
+push that 0
+pop local 3
+push argument 1
+push local 3
+call BlockInfo.GetX 1
+add
+pop local 4
+push argument 2
+push local 3
+call BlockInfo.GetY 1
+add
+pop local 5
+push local 4
+push constant 32
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 21
+push local 4
+push local 5
+call Board.Get 3
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
+label IF_FALSE1
+push local 2
+push constant 1
+add
+pop local 2
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+not
+return
+label IF_FALSE0
+push constant 0
+return
+function Piece.rotate 1
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+add
+pop this 1
+push constant 4
+push this 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop this 1
+label IF_FALSE0
+push this 1
+push this 5
+add
+pop pointer 1
+push that 0
+pop this 6
+push this 6
+call ShapeInfo.getBlockInfo 1
+pop this 7
+push this 6
+call ShapeInfo.getBounds 1
+pop this 8
+push this 6
+call ShapeInfo.getColonnes 1
+pop this 9
+push this 14
+push constant 0
+push this 8
+add
+pop pointer 1
+push that 0
+sub
+push constant 0
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+push this 8
+add
+pop pointer 1
+push that 0
+pop this 14
+goto IF_END1
+label IF_FALSE1
+push constant 15
+push this 14
+push constant 1
+push this 8
+add
+pop pointer 1
+push that 0
+add
+lt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 15
+push constant 1
+push this 8
+add
+pop pointer 1
+push that 0
+sub
+pop this 14
+label IF_FALSE2
+label IF_END1
+push constant 0
+return
+function Piece.draw 4
+push argument 0
+pop pointer 0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 7
+add
+pop pointer 1
+push that 0
+pop local 1
+push this 13
+push local 1
+call BlockInfo.GetX 1
+add
+pop local 2
+push this 14
+push local 1
+call BlockInfo.GetY 1
+add
+pop local 3
+push local 2
+push constant 32
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 2
+push local 3
+call Utility.drawBlock 2
+pop temp 0
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Piece.erase 4
+push argument 0
+pop pointer 0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 7
+add
+pop pointer 1
+push that 0
+pop local 1
+push this 13
+push local 1
+call BlockInfo.GetX 1
+add
+pop local 2
+push this 14
+push local 1
+call BlockInfo.GetY 1
+add
+pop local 3
+push local 2
+push constant 32
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 2
+push local 3
+call Utility.erazeBlock 2
+pop temp 0
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Piece.collision 3
+push argument 0
+pop pointer 0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 7
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+call BlockInfo.GetCol 1
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 13
+push local 1
+call BlockInfo.GetX 1
+add
+push constant 1
+sub
+pop local 2
+push local 2
+push constant 32
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 21
+push local 2
+push this 14
+push local 1
+call BlockInfo.GetY 1
+add
+call Board.Get 3
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push pointer 0
+call Piece.freezePiece 1
+pop temp 0
+push this 21
+push this 13
+push this 9
+call Board.PlacePiece 3
+pop temp 0
+push pointer 0
+call Piece.resetPiece 1
+pop temp 0
+label IF_FALSE2
+label IF_FALSE1
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Piece.freezePiece 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 1
+label WHILE_EXP0
+push local 1
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push local 1
+push this 7
+add
+pop pointer 1
+push that 0
+pop local 2
+push this 13
+push local 2
+call BlockInfo.GetX 1
+add
+pop local 0
+push local 0
+push constant 32
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 21
+push local 0
+push this 14
+push local 2
+call BlockInfo.GetY 1
+add
+push constant 0
+not
+call Board.Set 4
+pop temp 0
+label IF_FALSE0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return

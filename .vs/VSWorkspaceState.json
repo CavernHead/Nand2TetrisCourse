@@ -2,8 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\Compiler",
-    "\\Compiler\\JackCompiler",
-    "\\JackTest"
+    "\\Compiler\\JackCompiler"
   ],
   "SelectedNode": "\\Compiler\\Compiler.sln",
   "PreviewInSolutionExplorer": false

@@ -1,0 +1,42 @@
+class Main
+{
+    static Piece handlingPiece; 
+    static Board gameBoard;
+    static bool continueGame;
+    function void main()
+    {
+        var int x;
+        var int y;
+        let continueGame = true;
+        do Utility.init();
+        let gameBoard = Board.new();
+        let handlingPiece = Piece.new(gameBoard);
+        while(continueGame)
+        {
+            do handlingPiece.update();
+            if(Keyboard.keyPressed()=48)
+            {
+                let x = 0;
+                while(x<32)
+                {
+                    let y =0;
+                    while(y<16)
+                    {
+                        if(gameBoard.Get(x,y)=true)
+                        {
+                            do Utility.drawSpecialBlock(x,y);
+                        }
+                        let y=y+1;
+                    }
+                    let x=x+1;
+                }
+            } 
+        }
+        return;
+    }
+    function void EndGame()
+    {
+        let continueGame= false;
+    return;
+    }
+}

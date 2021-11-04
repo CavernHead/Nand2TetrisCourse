@@ -1,0 +1,25 @@
+class ShapeInfo
+{
+    field Array colonnes;
+    field Array blockInfo;
+    field Array bounds;
+    constructor ShapeInfo new(Array blockInfoP,Array colonnesP,Array boundsP)
+    {
+        let colonnes = colonnesP;
+        let blockInfo= blockInfoP;
+        let bounds= boundsP;
+        return this;
+    }
+    method Array getBlockInfo()
+    {
+        return blockInfo;
+    }
+    method Array getBounds()
+    {
+        return bounds;
+    }
+     method Array getColonnes()
+    {
+        return colonnes;
+    }
+}

@@ -24,3 +24,10 @@ C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\Compile
 C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.dll
 C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.pdb
 C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.genruntimeconfig.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.csprojAssemblyReference.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.AssemblyInfoInputs.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.AssemblyInfo.cs
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.csproj.CoreCompileInputs.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.dll
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.pdb
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\CompilerAssemblerToMachine\obj\Debug\netcoreapp3.1\CompilerAssemblerToMachine.genruntimeconfig.cache

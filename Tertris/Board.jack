@@ -1,0 +1,176 @@
+class Board
+{
+    field Array grid;
+    field int maxHeight;
+    constructor Board new()
+    {
+        
+        var int i;
+        var int j;
+        var Array intermid;
+        let maxHeight = 0;
+        let grid = Array.new(33);
+        while(i<33)
+        {
+            let j =0;
+            let grid[i] = Array.new(16);
+            let intermid = grid[i];
+            while(j<16)
+            {
+                if(i=0)
+                {
+                    let intermid[j] = true;
+                }
+                else
+                {
+                    let intermid[j] = false;
+                } 
+                 let j = j+1; 
+            }
+            let i = i+1;
+        }
+        return this;
+    }
+    method boolean Get(int x,int y)
+    {
+        var Array colonne;
+        let colonne = grid[x+1];
+        return colonne[y];
+    } 
+    method void Set(int x,int y,boolean value)
+    {
+        var Array colonne;
+        let colonne = grid[x+1];
+        let colonne[y] = value;
+        return;
+    }
+    method void PlacePiece(int xP,Array affectedColonnes)
+    {   
+        var int height;
+        var int i;
+        var int displacement;
+        var boolean continueLoop;
+        var int topLimitCheck;
+        
+        let continueLoop = true;
+        let i = 0;
+        while(continueLoop)
+        {
+            if(affectedColonnes[i]=666)
+            {
+                let continueLoop = false;
+            }
+            else
+            {
+                let height = xP+affectedColonnes[i];
+                if(maxHeight<height)//set the max height piece pos
+                {
+                    let maxHeight = height;
+                    if(31<maxHeight)
+                    {
+                        do Main.EndGame();
+                        return;
+                    }
+                }
+                if(checkColumnFull(height))
+                {
+                    let displacement =displacement+1;
+                }
+                else
+                {
+                    if(0<displacement)
+                    {
+                        do moveColumnDown(height,displacement);
+                    }
+                }
+                let i = i+1;
+            }
+        }
+      
+        if(0<displacement)
+        {
+            let topLimitCheck = maxHeight+1+displacement;
+            let height = height+1;
+            while(height<topLimitCheck)//also move an extra empty column down
+            {   
+                do moveColumnDown(height,displacement);
+                let height = height+1;
+            }
+            let i = xP+affectedColonnes[0];
+            while(i<topLimitCheck)
+            {
+                do DrawColumn(i);
+                let i =i+1;
+            }
+
+            let maxHeight = maxHeight-displacement;
+        }
+        
+        return;
+    }
+    method void moveColumnDown(int xP, int displacement)
+    {
+        var Array column;
+        var Array columnU;
+        var int i;
+        let xP = xP+1;
+        let column = grid[xP];
+        let columnU = grid[xP-displacement];
+        if(xP<33)
+        {
+            while(i<16)
+            {
+                let columnU[i] = column[i];
+                let i = i +1;
+            }
+        }
+        else
+        {
+            while(i<16)
+            {
+                let columnU[i] =false;
+                let i = i +1;
+            }
+        }
+        
+        return;
+    }
+
+    method boolean checkColumnFull(int xP)
+    {
+        var Array colonne;
+        var int i;
+        let colonne = grid[xP+1];
+        while(i<16)
+        {
+            if(colonne[i]=false)
+            {
+                return false;
+            }
+            let i = i +1;
+        }
+        return true;
+    }
+   
+    method void DrawColumn(int xP)
+    {
+        var Array column;
+        var int i;
+        let column = grid[xP+1];
+        let i = 0;
+        while(i<16)
+        {
+            if(column[i])
+            {
+                do Utility.drawBlock(xP,i);
+            }
+            else
+            {
+                do Utility.erazeBlock(xP,i);
+            }
+            let i = i +1;
+        }
+        return;
+    }
+   
+}

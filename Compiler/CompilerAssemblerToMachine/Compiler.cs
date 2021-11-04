@@ -11,8 +11,8 @@ namespace CompilerAssemblerToMachine
         static void Main(string[] args)
         {
             Compiler compiler = new Compiler();
-            Console.WriteLine("compiling NestedCall");
-            compiler.TranslateAssemblerToMachine("NestedCall");
+            Console.WriteLine("compiling FinalProg");
+            compiler.TranslateAssemblerToMachine("FinalProg");
             // compiler.TranslateAssemblerToMachine("Max");
           // compiler.TranslateAssemblerToMachine("MaxL");
           // compiler.TranslateAssemblerToMachine("Mult"); 
@@ -28,7 +28,7 @@ namespace CompilerAssemblerToMachine
         }
         void TranslateAssemblerToMachine(string assemberFileName, string machineCodeFileName)
         {
-            string parentFileName= @"C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\CompilerAssemblerToMachine\";
+            string parentFileName= @"C:\Users\Carte\Desktop\nand2tetris\nand2tetris\projects\12\";
             TranslateAssemblerToMachine(parentFileName, assemberFileName, machineCodeFileName);
         }
         void TranslateAssemblerToMachine(string parentFileName, string assemberFileName, string machineCodeFileName)

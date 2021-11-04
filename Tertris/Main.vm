@@ -1,0 +1,77 @@
+function Main.main 2
+push constant 0
+not
+pop static 2
+call Utility.init 0
+pop temp 0
+call Board.new 0
+pop static 1
+push static 1
+call Piece.new 1
+pop static 0
+label WHILE_EXP0
+push static 2
+not
+if-goto WHILE_END0
+push static 0
+call Piece.update 1
+pop temp 0
+call Keyboard.keyPressed 0
+push constant 48
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+pop local 0
+label WHILE_EXP1
+push local 0
+push constant 32
+lt
+not
+if-goto WHILE_END1
+push constant 0
+pop local 1
+label WHILE_EXP2
+push local 1
+push constant 16
+lt
+not
+if-goto WHILE_END2
+push static 1
+push local 0
+push local 1
+call Board.Get 3
+push constant 0
+not
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push local 1
+call Utility.drawSpecialBlock 2
+pop temp 0
+label IF_FALSE1
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP2
+label WHILE_END2
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+label IF_FALSE0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Main.EndGame 0
+push constant 0
+pop static 2
+push constant 0
+return

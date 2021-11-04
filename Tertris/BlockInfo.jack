@@ -1,0 +1,31 @@
+class BlockInfo
+{
+    field int x;
+    field int y;
+    field boolean col;
+    constructor BlockInfo new(int xP, int yP, int colP)
+    {
+        let x = xP;
+        let y = yP;
+        let col = colP;
+        return this;
+    }
+    method int GetX()
+    {
+        return x;
+    }
+    method int GetY()
+    {
+        return y;
+    }
+    method int GetCol()
+    {
+        return col;
+    }
+     method void SetCol(boolean colP)
+    {
+        let col = colP;
+        return ;
+    }
+
+}

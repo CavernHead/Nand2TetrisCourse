@@ -1,0 +1,99 @@
+class Utility
+{
+    static Array basicBlock;
+    static Array specialBlock;
+    function void init()
+    {
+        let basicBlock = Array.new(16);
+        let basicBlock[0] = ~(-1);
+        let basicBlock[1] = ~(-32767);
+        let basicBlock[2] = ~(-32767);
+        let basicBlock[3] = ~(-32767);
+        let basicBlock[4] = ~(-32767);
+        let basicBlock[5] = ~(-32767);
+        let basicBlock[6] = ~(-32767);
+        let basicBlock[7] = ~(-32767);
+        let basicBlock[8] = ~(-32767);
+        let basicBlock[9] = ~(-32767);
+        let basicBlock[10] = ~(-32767);
+        let basicBlock[11] = ~(-32767);
+        let basicBlock[12] = ~(-32767);
+        let basicBlock[13] = ~(-32767);
+        let basicBlock[14] = ~(-32767);
+        let basicBlock[15] = ~(-1);
+
+        let specialBlock = Array.new(16);
+        let specialBlock[0] = (-1);
+        let specialBlock[1] = (-32767);
+        let specialBlock[2] = (-32767);
+        let specialBlock[3] = (-32767);
+        let specialBlock[4] = (-32767);
+        let specialBlock[5] = (-32767);
+        let specialBlock[6] = (-32767);
+        let specialBlock[7] = (-32767);
+        let specialBlock[8] = (-32767);
+        let specialBlock[9] = (-32767);
+        let specialBlock[10] = (-32767);
+        let specialBlock[11] = (-32767);
+        let specialBlock[12] = (-32767);
+        let specialBlock[13] = (-32767);
+        let specialBlock[14] = (-32767);
+        let specialBlock[15] = (-1);
+        return;
+    }
+    function Array rotate90(Array vect1)
+    {
+        var Array vectR;
+        let vectR= Array.new(2);
+        let vectR[0]=-vect1[1];
+        let vectR[1]=vect1[0];
+        do vect1.dispose();
+        return vectR; 
+    }
+
+    function void drawBlock(int x, int y) 
+    {
+        var int i;
+        var int adress;
+        let adress = 16384+(y*32*16)+x;
+        while(i<16)
+        {
+            do Memory.poke(adress,basicBlock[i]);
+            let adress = adress+32;
+            let i = i+1;
+        }
+        return;
+    }
+    
+    function void drawAnyBlock(int x, int y,Array anyblock ) 
+    {
+        var int i;
+        var int adress;
+        let adress = 16384+(y*32*16)+x;
+        while(i<16)
+        {
+            do Memory.poke(adress,anyblock[i]);
+            let adress = adress+32;
+            let i = i+1;
+        }
+        return;
+    }
+    function void drawSpecialBlock(int x, int y)
+    {
+        do Utility.drawAnyBlock(x,y,specialBlock);
+        return;
+    }
+    function void erazeBlock(int x, int y) 
+    {
+        var int i;
+        var int adress;
+        let adress = 16384+(y*32*16)+x;
+        while(i<16)
+        {
+            do Memory.poke(adress,0);
+            let adress = adress+32;
+            let i = i+1;
+        }
+        return;
+    }
+}

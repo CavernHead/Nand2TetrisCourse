@@ -10,12 +10,12 @@ namespace JackCompiler
     {
         static void Main(string[] args)
         {
-            JackSyntaxAnalyze("StringTest");
+            JackSyntaxAnalyze("12");
         }
         public static void JackSyntaxAnalyze(string fileOrFolderShort)
         {
             //string folderSearching = @"C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\JackCompiler\";
-            string folderSearching = @"C:\Users\Carte\Source\Repos\Nand2TetrisCourse\JackOs\";
+            string folderSearching = @"C:\Users\Carte\Desktop\nand2tetris\nand2tetris\projects\";
             string fullNameOfFileOrFolder = folderSearching + fileOrFolderShort;
             Tokenizer tokenizerUsing = new Tokenizer();
             string extension = Path.GetExtension(fileOrFolderShort);

@@ -1,0 +1,75 @@
+class Grid
+{
+    field Array grid;
+    field int xSize;
+    field int ySize;
+
+    constructor Grid new(int xSizeP,int ySizeP)
+    {
+        var int i;
+        var int j;
+        var Array intermid;
+        let xSize = xSizeP;
+        let ySize = ySizeP;
+        let grid = Array.new(xSize);
+        while(i<xSize)
+        {
+            let j =0;
+            let grid[i] = Array.new(ySize);
+            let intermid = grid[i];
+            while(j<ySize)
+            {
+                 let intermid[j] = false;
+                 let j = j+1; 
+            }
+            let i = i+1;
+        }
+        return this;
+    }
+    method boolean Get(int x,int y)
+    {
+        var Array colonne;
+        let colonne = grid[x];
+        return colonne[y];
+    } 
+    method void Set(int x,int y,boolean value)
+    {
+        var Array colonne;
+        let colonne = grid[x];
+        let colonne[y] = value;
+        return;
+    }
+    method void Clean()
+    {
+        var array intermid;
+        var int i;
+        var int j;
+        while(i<xSize)
+        {
+            let intermid = grid[i];
+            let j =0;
+            while(j<ySize)
+            {
+                 let intermid[j] = false;
+                 let j = j+1; 
+            }
+            let i = i+1;
+        }
+        return;
+    }
+    method int getSizeX()
+    {
+        return xSize;
+    }
+    method int getSizeY()
+    {
+        return ySize;
+    }
+    method void Dispose()
+    {
+       do Memory.deAlloc(this);
+       do grid.Dispose();
+       return;
+    }
+   
+}

@@ -10,12 +10,12 @@ namespace VmTranslator
         static void Main(string[] args)
         {
             Compiler complier = new Compiler();
-            complier.TranslateFileOrFolder("StaticsTest", "StaticsTest");
+            complier.TranslateFileOrFolder("12", "FinalProg");
         }
 
         public void TranslateFileOrFolder(string fileOrFolder,string asmFileNameShort)
         {
-            string parentFileName = @"C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\VmTranslator\";
+            string parentFileName = @"C:\Users\Carte\Desktop\nand2tetris\nand2tetris\projects\";
             List<string> filesToTranslate = new List<string>();
             bool containsSysFile =false;
             string SystemFileName = parentFileName + "Sys.vm";
@@ -478,10 +478,11 @@ namespace VmTranslator
                 commandCommandCounter++;
             }
 
-            foreach (String current in assemblerCommands)
-            {
-                Console.WriteLine("" + current);
-            }
+            //foreach (String current in assemblerCommands)
+            //{
+            //    Console.WriteLine("" + current);
+            //}
+            Console.WriteLine("created file:" + asmFileNameFull);
             using (StreamWriter sw = File.CreateText(asmFileNameFull))
             {
                 foreach (String current in assemblerCommands)

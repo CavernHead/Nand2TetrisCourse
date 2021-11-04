@@ -11,3 +11,16 @@ C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\VmTrans
 C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.dll
 C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.pdb
 C:\Users\Carte\Source\Repos\Nand2TetrisCourse\CompilerAssemblerToMachine\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.genruntimeconfig.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\bin\Debug\netcoreapp3.1\VmTranslator.exe
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\bin\Debug\netcoreapp3.1\VmTranslator.deps.json
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\bin\Debug\netcoreapp3.1\VmTranslator.runtimeconfig.json
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\bin\Debug\netcoreapp3.1\VmTranslator.runtimeconfig.dev.json
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\bin\Debug\netcoreapp3.1\VmTranslator.dll
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\bin\Debug\netcoreapp3.1\VmTranslator.pdb
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.csprojAssemblyReference.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.AssemblyInfoInputs.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.AssemblyInfo.cs
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.csproj.CoreCompileInputs.cache
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.dll
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.pdb
+C:\Users\Carte\Source\Repos\Nand2TetrisCourse\Compiler\VmTranslator\obj\Debug\netcoreapp3.1\VmTranslator.genruntimeconfig.cache
