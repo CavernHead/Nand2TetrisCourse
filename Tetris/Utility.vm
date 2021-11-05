@@ -340,9 +340,6 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
-push argument 0
-call Array.dispose 1
-pop temp 0
 push local 0
 return
 function Utility.drawBlock 2

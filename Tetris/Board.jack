@@ -13,8 +13,8 @@ class Board
         while(i<33)
         {
             let j =0;
-            let grid[i] = Array.new(16);
-            let intermid = grid[i];
+            let intermid = Array.new(16);
+            let grid[i] =intermid;
             while(j<16)
             {
                 if(i=0)

@@ -3,13 +3,22 @@ class Main
     static Piece handlingPiece; 
     static Board gameBoard;
     static bool continueGame;
+    static Array testVect;
     function void main()
     {
+        
         var int x;
         var int y;
+       // let testVect = Array.new(2);
+       // let testVect[0] = 1;
+       // let testVect[1] = 2;
+       // let testVect = Utility.rotate90(testVect);
+       // let testVect = Utility.rotate90(testVect);
+       // let testVect = Utility.rotate90(testVect);
+        let gameBoard = Board.new();
         let continueGame = true;
         do Utility.init();
-        let gameBoard = Board.new();
+       
         let handlingPiece = Piece.new(gameBoard);
         while(continueGame)
         {

@@ -45,9 +45,9 @@ class Utility
     {
         var Array vectR;
         let vectR= Array.new(2);
-        let vectR[0]=-vect1[1];
+        let vectR[0]=-(vect1[1]);
         let vectR[1]=vect1[0];
-        do vect1.dispose();
+       // do vect1.dispose();
         return vectR; 
     }
 

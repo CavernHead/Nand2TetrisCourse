@@ -1,11 +1,11 @@
 function Main.main 2
+call Board.new 0
+pop static 1
 push constant 0
 not
 pop static 2
 call Utility.init 0
 pop temp 0
-call Board.new 0
-pop static 1
 push static 1
 call Piece.new 1
 pop static 0

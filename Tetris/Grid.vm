@@ -17,21 +17,17 @@ not
 if-goto WHILE_END0
 push constant 0
 pop local 1
+push this 2
+call Array.new 1
+pop local 2
 push local 0
 push this 0
 add
-push this 2
-call Array.new 1
+push local 2
 pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
-push local 0
-push this 0
-add
-pop pointer 1
-push that 0
-pop local 2
 label WHILE_EXP1
 push local 1
 push this 2

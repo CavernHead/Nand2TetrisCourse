@@ -15,8 +15,9 @@ class Grid
         while(i<xSize)
         {
             let j =0;
-            let grid[i] = Array.new(ySize);
-            let intermid = grid[i];
+            let intermid = Array.new(ySize);
+            let grid[i] = intermid;
+            
             while(j<ySize)
             {
                  let intermid[j] = false;

@@ -1,0 +1,663 @@
+class Piece
+{
+    static int motionCounter;
+    static int leftRightMotionCounter;
+    field int randomShapeCounter;
+  
+    field int rotation;
+    field int pieceType;
+
+    field Grid blanc;
+    field Array pieceInfo;
+    field Array shapeAllOrientations;
+    field ShapeInfo orientationInfo;
+    field Array orientationBlockInfo;
+    field Array orientationBounds;
+    field Array orientationColumns;
+
+
+    field boolean rightKeyReleased;
+    field boolean upKeyReleased;
+    field boolean downKeyReleased;
+    field int x;
+    field int y;
+    field int xS;
+    field int yS;
+    field int downsSpeed;
+    field int downSpeedNormal;
+    field int downSpeedFast;
+    field int leftRightSpeed;
+    
+    field Board boardOn;
+    
+    constructor Piece new(Board boardOnP)
+    {
+        var Array shapData;
+        var Array vector;
+        let randomShapeCounter =0;
+
+        let downSpeedNormal = 2500;
+        let downSpeedFast = 1000;
+        let leftRightSpeed =1000;
+        
+        let blanc = Grid.new(5,5);
+
+        let boardOn =boardOnP;
+        let rightKeyReleased = false;
+        let upKeyReleased= false;
+        let downKeyReleased= false;
+        
+        let xS = 35;
+        let yS = 8;
+
+        let pieceInfo = Array.new(7);
+
+        //1)L
+        let shapData = Array.new(4);
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =-1;
+        let shapData[0] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =0;
+        let shapData[1] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =1;
+        let shapData[2] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =1;
+        let vector[1] =1;
+        let shapData[3] = vector;
+
+        do RecordPieceInfo(0,shapData);
+
+        //2)J
+        let shapData = Array.new(4);
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =-1;
+        let shapData[0] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =0;
+        let shapData[1] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =-1;
+        let vector[1] =1;
+        let shapData[2] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =1;
+        let shapData[3] = vector;
+
+        do RecordPieceInfo(1,shapData);
+      
+        //3)T
+        let shapData = Array.new(4);
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =-1;
+        let shapData[0] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =-1;
+        let vector[1] =0;
+        let shapData[1] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =0;
+        let shapData[2] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =1;
+        let vector[1] =0;
+        let shapData[3] = vector;
+        
+        do RecordPieceInfo(2,shapData);
+
+        //4)I
+        let shapData = Array.new(4);
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =-1;
+        let shapData[0] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =0;
+        let shapData[1] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =1;
+        let shapData[2] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =2;
+        let shapData[3] = vector;
+        
+        do RecordPieceInfo(3,shapData);
+
+        //5)S
+        let shapData = Array.new(4);
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =0;
+        let shapData[0] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =1;
+        let vector[1] =0;
+        let shapData[1] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =-1;
+        let vector[1] =1;
+        let shapData[2] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =1;
+        let shapData[3] = vector;
+        
+        do RecordPieceInfo(4,shapData);
+
+        //6)Z
+        let shapData = Array.new(4);
+        let vector = Array.new(2);
+        let vector[0] =-1;
+        let vector[1] =0;
+        let shapData[0] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =0;
+        let shapData[1] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =1;
+        let shapData[2] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =1;
+        let vector[1] =1;
+        let shapData[3] = vector;
+        
+        do RecordPieceInfo(5,shapData);
+
+        //7)O
+        let shapData = Array.new(4);
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =0;
+        let shapData[0] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =1;
+        let vector[1] =0;
+        let shapData[1] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =0;
+        let vector[1] =1;
+        let shapData[2] = vector;
+
+        let vector = Array.new(2);
+        let vector[0] =1;
+        let vector[1] =1;
+        let shapData[3] = vector;
+        
+        do RecordPieceInfo(6,shapData);
+
+        do resetPiece();
+        
+
+        return this;
+    }
+    method void RecordPieceInfo(int n,Array pieceShape)
+    {   
+        var int i;
+        var int j;
+        var int k;
+        var int l;
+        var int intermid;
+        var Array orientations;
+        var ShapeInfo shapeInfo;
+        var Array shapeBlockInfo;
+        var Array shapeColonneInfo;
+        var Array bounds;
+        var Array vector;
+        var BlockInfo block;
+        var boolean continueLoop;
+        
+        
+        let orientations = Array.new(4);
+        let pieceInfo[n] = orientations;
+        let i =0;
+        do Output.println();    
+        while(i<4)
+        {
+            //all block pos data
+            let shapeBlockInfo = Array.new(4);
+            do blanc.Clean();
+            let j =0;
+            
+            while(j<4)
+            {
+                
+                let vector = Utility.rotate90(pieceShape[j]);
+                let pieceShape[j] = vector;
+
+                do Output.printInt(vector[0]);
+                do Output.printChar(44);
+                do Output.printInt(vector[1]);
+                do Output.printChar(95);
+                do Output.printChar(95);
+                //do Output.printChar(95);
+                //do Output.printChar(95);
+                //do Output.printChar(95);
+                //do Output.println();
+                let block = BlockInfo.new(vector[0],vector[1],false);
+                let shapeBlockInfo[j] = block;
+                do blanc.Set(2+vector[0],2+vector[1],true);
+                let j =j+1;
+            }
+            do Output.printChar(124);
+            do Output.printChar(124);
+            do Output.printChar(124);
+            
+           
+            //all block collision data
+            let j =0;
+            while(j<4)
+            {
+                let block = shapeBlockInfo[j];
+                let intermid =(2+block.GetX())-1;
+                if(intermid<0)
+                {
+                    do block.SetCol(true);
+                }
+                else
+                {
+                    if(~blanc.Get(intermid,2+block.GetY()))
+                    {
+                        do block.SetCol(true);
+                    }
+                }
+                
+                let j =j+1;
+            }
+           
+            //all block colonne data
+            let shapeColonneInfo = Array.new(blanc.getSizeX());
+            let j =0;
+            let l =0;
+            while(j<blanc.getSizeX())
+            {
+                let k =0;
+                let continueLoop = true;
+                while((k<blanc.getSizeX())&continueLoop)
+                {
+                    if(blanc.Get(j,k))
+                    {
+                        let continueLoop = false;
+                        let shapeColonneInfo[l]=j-2;
+                        let l= l+1;
+                    }
+                   
+                    let k =k+1;
+                }
+                
+                let j =j+1;
+            }
+            let shapeColonneInfo[l] =666;
+           
+            //all block bounds data
+            //bottom bound
+            let bounds = Array.new(2); 
+            let j =0;
+            let l =0;
+            let continueLoop = true;
+            while((j<blanc.getSizeX())&continueLoop)
+            {
+                let k =0;
+                while((k<blanc.getSizeX())&continueLoop)
+                {
+                    if(blanc.Get(k,j))
+                    {
+                        let continueLoop = false;
+                    }
+                    //do Output.printString(" loop 7 ");
+                    let k =k+1;
+                }
+                if(continueLoop)
+                {
+                    let l = l+1;
+                }
+                //do Output.printString(" loop 6 ");
+                let j =j+1;
+            } 
+            let bounds[0] =2-l;
+            
+            //Top bound
+            let j =blanc.getSizeX()-1;
+            let l =0;
+            let continueLoop = true;
+            while((-1<j)&continueLoop)
+            {
+                let k =0;
+                while((k<5)&continueLoop)
+                {
+                    if(blanc.Get(k,j))
+                    {
+                        let continueLoop = false;
+                    }
+                   
+                    let k =k+1;
+                }
+                if(continueLoop)
+                {
+                    let l = l+1;
+                }
+                
+                let j =j-1;
+            }
+            let bounds[1] =2-l;
+            
+            //Assembling all data for arientation
+            let shapeInfo = ShapeInfo.new(shapeBlockInfo,shapeColonneInfo,bounds);
+            let orientations[i] = shapeInfo;
+            let i = i+1;
+        }
+        let i = 0;
+        while(i<4)
+        {
+            let vector = pieceShape[i];
+            do vector.dispose();
+            let i=i+1;
+        }
+        do pieceShape.dispose();
+        return;
+    }
+
+    method void resetPiece()
+    {
+        let leftRightMotionCounter=0;
+        let downsSpeed = downSpeedNormal;
+        let motionCounter =0;
+        let pieceType = randomShapeCounter;
+       // let pieceType = 6;
+        let rotation =0;
+        let x = xS;
+        let y = yS;
+
+        let shapeAllOrientations = pieceInfo[pieceType];
+        let orientationInfo = shapeAllOrientations[rotation];
+        let orientationBlockInfo = orientationInfo.getBlockInfo();
+        let orientationBounds= orientationInfo.getBounds();
+        let orientationColumns = orientationInfo.getColonnes();
+
+        do draw();
+        return;
+    }
+    method void update()
+    {
+        let randomShapeCounter=randomShapeCounter+1;
+        if(6<randomShapeCounter)
+        {
+            let randomShapeCounter =0;
+        }
+        //do Output.printString(" update piece ");
+       
+        //speeding up down
+        if(Keyboard.keyPressed()=130)
+        {
+            let downsSpeed = downSpeedFast;
+        }
+        else
+        {
+            let downsSpeed = downSpeedNormal;
+        }
+        let motionCounter = motionCounter+1;
+        
+        //left motion
+        if(downsSpeed<motionCounter)
+        {
+            let motionCounter = 0;
+            do changePostion(-1,0);
+        }
+         //rotation 
+        if(Keyboard.keyPressed()=132)
+        {
+            let rightKeyReleased =true;
+            
+        }
+        else
+        {
+            if(rightKeyReleased)
+            {
+                do erase();
+                do rotate();
+                do draw();
+                do collision();
+                let rightKeyReleased = false;
+            }
+        }
+        //move up 
+        
+        if(Keyboard.keyPressed()=131)
+        {
+            let leftRightMotionCounter = leftRightMotionCounter+1;
+            if(~upKeyReleased)
+            {
+                let leftRightMotionCounter =leftRightSpeed;
+                let upKeyReleased= true;
+            }
+            if(leftRightSpeed<leftRightMotionCounter)
+            {
+                let leftRightMotionCounter =0;
+                do changePostion(0,-1);
+            }
+            
+        }
+        else
+        {
+            if(upKeyReleased)
+            {
+                let upKeyReleased= false;
+            }
+        }
+        //move down 
+        if(Keyboard.keyPressed()=133)
+        {
+            let leftRightMotionCounter = leftRightMotionCounter+1;
+            if(~downKeyReleased)
+            {
+                let leftRightMotionCounter =leftRightSpeed;
+                let downKeyReleased= true;
+            }
+            if(leftRightSpeed<leftRightMotionCounter)
+            {
+                let leftRightMotionCounter =0;
+                do changePostion(0,1);
+            }
+        }
+        else
+        {
+            if(downKeyReleased)
+            {   
+                let downKeyReleased= false;
+            }
+        }
+            return;
+    }
+   
+    method void changePostion(int xP,int yP)
+    {
+        var int newY;
+        do erase();
+        let newY=y+yP;
+        let x = x+xP;
+        if(CheckPosInBounds(x,newY))
+        {
+            let y =newY;
+        }
+        do draw();
+        do collision();
+        return;
+    }
+    method boolean CheckPosInBounds(int xP,int yP)
+    {
+        var int bBound;
+        var int tBound;
+        var int i;
+        var BlockInfo cBlock;
+        var int lx;
+        var int ly;
+        let bBound=yP-orientationBounds[0];
+        let tBound=yP+orientationBounds[1];
+        
+        if((-1<bBound)&(tBound<16))
+        {
+            while(i<4)
+            {
+                let cBlock = orientationBlockInfo[i];
+                let lx =xP+cBlock.GetX();
+                let ly =yP+cBlock.GetY();
+                if(lx<32)
+                {
+                    if(boardOn.Get(lx,ly))
+                    {
+                        return false;
+                    }
+                }
+                let i =i+1;
+            }
+            return true;
+        }
+        return false;
+        
+        
+    }
+   
+    method void rotate()
+    {
+        var int intermid;
+        let rotation = rotation+1;
+        if(4=rotation)
+        {
+           let rotation =0;
+        }
+        let orientationInfo = shapeAllOrientations[rotation];
+        let orientationBlockInfo = orientationInfo.getBlockInfo();
+        let orientationBounds= orientationInfo.getBounds();
+        let orientationColumns = orientationInfo.getColonnes();
+       
+        if((y-orientationBounds[0])<0)
+        {
+            let y = orientationBounds[0];
+        }
+        else
+        {
+             if(15<(y+orientationBounds[1]))
+             {
+                let y = 15-orientationBounds[1];
+             }
+        }
+        return;
+    }
+    
+    method void draw()
+    {
+        var int i;
+        var BlockInfo cBlock;
+        var int lx;
+        var int ly;
+        while(i<4)
+        {
+            let cBlock = orientationBlockInfo[i];
+            let lx =x+cBlock.GetX();
+            let ly = y+cBlock.GetY();
+            if(lx<32)
+            {
+                do Utility.drawBlock(lx,ly);
+            }
+            let i =i+1;
+        }
+        return;
+    }
+    method void erase()
+    {
+        var int i;
+        var BlockInfo cBlock;
+        var int lx;
+        var int ly;
+        while(i<4)
+        {
+            let cBlock = orientationBlockInfo[i];
+            let lx =x+cBlock.GetX();
+            let ly = y+cBlock.GetY();
+            if(lx<32)
+            {
+                do Utility.erazeBlock(lx,ly);
+            }
+            let i =i+1;
+        }
+        return;
+    }
+    method void collision()
+    {
+        var int i;
+        var BlockInfo cBlock;
+        var int intermid;
+        while(i<4)
+        {
+            let cBlock = orientationBlockInfo[i];
+            if(cBlock.GetCol())
+            {
+                let intermid =(x+cBlock.GetX())-1;
+                if(intermid<32)
+                {
+                    if(boardOn.Get(intermid,y+cBlock.GetY()))
+                    {   
+                        do freezePiece();
+                        do boardOn.PlacePiece(x,orientationColumns);
+                        do resetPiece();
+                    }
+                }
+            }
+            let i =i+1;
+        }
+        
+        return;
+    }
+    method void freezePiece()
+    {
+        var int intermid;
+        var int i;
+        var BlockInfo cBlock;
+        let i = 0;
+        while(i<4)
+        {
+            let cBlock = orientationBlockInfo[i];
+            let intermid =x+cBlock.GetX();
+            if(intermid<32)
+            {
+                do boardOn.Set(intermid,y+cBlock.GetY(),true);
+            }
+            let i =i+1;
+        }
+        return;
+    }
+}
